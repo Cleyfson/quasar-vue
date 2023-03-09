@@ -1,22 +1,39 @@
 <template>
-  <div class="row items-start q-gutter-md">
-    <q-card class="my-card flex row">
-    <q-card-section>
-      <q-avatar rounded>
-        <img src="https://cdn.quasar.dev/img/avatar.png">
-      </q-avatar>
-    </q-card-section>
+  <div class="flex column flex-center">
+    <q-card class="q-mb-md my-card flex row" v-for="usuario in usuarios" :key="usuario.id">
+      <q-card-section>
+        <q-avatar rounded>
+          <img size="5rem" :src="usuario.avatar">
+        </q-avatar>
+      </q-card-section>
 
-  <q-card-section>
-    <div class="text-h6">Our Changing Planet</div>
-    <div class="text-subtitle2">by John Doe</div>
-  </q-card-section>
+      <q-card-section>
+        <div class="text-h6">
+          {{ `${usuario.first_name} ${usuario.last_name}` }}
+        </div>
+        <div class="text-subtitle2"> {{ usuario.email }}  </div>
+      </q-card-section>
+      <q-card-section>
+      </q-card-section>
     </q-card>
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue'
+import { mapState } from 'vuex'
 
-}
+export default defineComponent({
+  name: 'UserCard',
+
+  computed: {
+    ...mapState('usuarios', ['usuarios'])
+  }
+})
 </script>
+
+<style lang='sass' scoped>
+  .my-card
+    width: 35em
+
+</style>

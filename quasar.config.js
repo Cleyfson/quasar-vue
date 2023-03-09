@@ -221,12 +221,12 @@ module.exports = configure(function (ctx) {
 
       chainWebpackMain (chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js'] }])
+          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
       },
 
       chainWebpackPreload (chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js'] }])
+          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
       }
 
     }
