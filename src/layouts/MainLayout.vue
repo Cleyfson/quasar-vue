@@ -2,7 +2,6 @@
   <q-layout class="flex column" view="lHh Lpr lFf">
     <q-banner class="q-mb-xl bg-primary text-white">
       <template v-slot:action>
-        <q-btn flat color="white" label="Dismiss" />
         <q-btn flat color="white" label="Novo Usuario" @click="showModal" />
       </template>
     </q-banner>
@@ -47,12 +46,12 @@ export default defineComponent({
     voltar (page) {
       const previousPage = (page > 1) ? (page - 1) : page
       this.$router.push({ path: `/${previousPage}` })
-      // this.carregaPagina(previousPage)
+      this.carregaPagina(previousPage)
     },
     seguir (page, total) {
       const nextPage = (page < total) ? (page + 1) : page
       this.$router.push({ path: `/${nextPage}` })
-      // this.carregaPagina(nextPage)
+      this.carregaPagina(nextPage)
     },
     showModal: function () {
       this.opened = true
