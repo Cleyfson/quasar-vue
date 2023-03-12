@@ -19,6 +19,10 @@ const mutations = {
 
   DELETAR_USUARIO (state, payload) {
     state.users = state.users.filter((user) => user.id !== payload)
+  },
+
+  ALTERA_USUARIO (state, payload) {
+
   }
 }
 
@@ -29,16 +33,19 @@ const actions = {
   },
   async buscaUsuario (context, id) {
     const response = await axios.get(`https://reqres.in/api/users/${id}`)
-    console.log(response)
+    return response
   },
   async criarUsuario (context, form) {
-    const response = await axios.post('https://reqres.in/api/users/', form)
+    try {
+      await axios.post('https://reqres.in/api/users/', form)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async alterarUsuario (context, form) {
+    const response = await axios.put(`https://reqres.in/api/users/${form.id}`, form)
     console.log(response)
   },
-  // async alterarUsuario (context, form) {
-  //   const response = await axios.put(`https://reqres.in/api/users/${form.id}`, form)
-  //   console.log(response)
-  // },
   async deletarUsuario (context, id, index) {
     try {
       await axios.delete(`https://reqres.in/api/users/${id}`)

@@ -16,7 +16,7 @@
         </q-card-section>
       </div>
       <q-card-section class="self-center q-gutter-md">
-        <span class="material-icons md-24"> edit </span>
+        <span class="material-icons md-24" @click="editar(user.id)"> edit </span>
         <span class="material-icons md-24" @click="deletarUsuario(user.id, index)"> delete </span>
         <span class="material-icons md-24"> visibility </span>
       </q-card-section>
@@ -25,21 +25,32 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
 import { mapState, mapActions } from 'vuex'
 
-export default defineComponent({
+export default {
   name: 'UserCard',
+
+  props: {
+    showModal: {
+      type: Function
+    },
+    fillForm: {
+      type: Function
+    }
+  },
 
   computed: {
     ...mapState('users', ['users'])
   },
 
   methods: {
-    ...mapActions('users', ['deletarUsuario'])
-
+    ...mapActions('users', ['deletarUsuario', 'buscaUsuario']),
+    async editar (id) {
+      const data = await this.buscaUsuario(id)
+      this.$emit('data', data.data)
+    }
   }
-})
+}
 </script>
 
 <style lang='sass' scoped>

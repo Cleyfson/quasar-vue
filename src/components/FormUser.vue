@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+
 import { mapActions } from 'vuex'
 
-export default defineComponent({
+export default {
   name: 'FormUser',
   data () {
     return {
@@ -33,29 +33,49 @@ export default defineComponent({
         'UI/UX Designer'
       ],
       form: {
-        id: null,
-        nome: null,
+        id: this.id,
+        nome: this.nome,
         funcao: ''
       }
     }
   },
+
+  props: {
+    id: {
+      type: Number
+    },
+    nome: {
+      type: String
+    },
+    showModal: {
+      type: Function
+    }
+  },
+
   methods: {
-    ...mapActions('users', ['criarUsuario']),
+    ...mapActions('users', ['criarUsuario', 'alterarUsuario']),
     onSubmit () {
-      if (this.form.nome !== null && this.form.funcao !== null) {
-        this.criarUsuario(this.form)
-        alert('Usuário criado com sucesso \n(será trocado pelo sweet alert)')
-        this.$router.push({ name: 'listagem-usuarios' })
+      console.log(this.form.id)
+      if (this.form.id === null) {
+        if (this.form.nome !== null && this.form.funcao !== null) {
+          this.criarUsuario(this.form)
+          alert('Usuário criado com sucesso \n(será trocado pelo sweet alert)')
+          this.showModal()
+        } else {
+          alert('Nome e Função são campos obrigatórios \n(será trocado pelo sweet alert)')
+        }
       } else {
-        alert('Nome e Função são campos obrigatórios \n(será trocado pelo sweet alert)')
+        alert('Usuário alterado com sucesso \n(será trocado pelo sweet alert)')
+        this.alterarUsuario(this.form)
+        this.showModal()
       }
     },
-
     onReset () {
       this.form.id = null
       this.form.nome = null
       this.form.funcao = null
     }
   }
-})
+
+}
 </script>
