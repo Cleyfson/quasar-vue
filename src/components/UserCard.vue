@@ -1,6 +1,6 @@
 <template>
-  <div class="flex column flex-center">
-    <q-card class="q-mb-md my-card flex row justify-between" v-for="(user, index) in users" :key="user.id">
+  <div class="flex justify-around q-mx-md" style="min-height: 60vh; gap: 3rem;">
+    <q-card class="my-card flex row justify-between" v-for="(user, index) in users" :key="user.id">
       <div class="flex row flex-center">
         <q-card-section>
           <q-avatar size="5rem" rounded>
@@ -17,8 +17,8 @@
       </div>
       <q-card-section class="self-center q-gutter-md">
         <span class="material-icons md-24" @click="editar(user.id)"> edit </span>
-        <span class="material-icons md-24" @click="deletarUsuario(user.id, index)"> delete </span>
-        <span class="material-icons md-24"> visibility </span>
+        <span class="material-icons md-24" @click="deletar(user.id, index)"> delete </span>
+        <span class="material-icons md-24" @click="detalhes(user.id)"> visibility </span>
       </q-card-section>
     </q-card>
   </div>
@@ -44,10 +44,16 @@ export default {
   },
 
   methods: {
-    ...mapActions('users', ['deletarUsuario', 'buscaUsuario']),
+    ...mapActions('users', ['carregaPagina']),
     async editar (id) {
       const data = await this.buscaUsuario(id)
       this.$emit('data', data.data)
+    },
+    detalhes (id) {
+      this.$router.push({ path: `/detalhes-usuario/${id}` })
+    },
+    deletar (id, index) {
+      this.deletarUsuario(id, index)
     }
   }
 }

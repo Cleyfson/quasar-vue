@@ -1,5 +1,5 @@
 <template>
-  <q-layout class="flex column q-pb-xl" view="lHh Lpr lFf">
+  <q-layout class="">
     <q-banner class="q-mb-xl bg-primary text-white">
       <template v-slot:action>
         <q-btn flat color="white" label="Novo Usuario" @click="criar()" />
@@ -9,7 +9,7 @@
       <form-user :showModal="showModal" :id="id" :nome="nome"></form-user>
     </q-dialog>
     <user-card :showModal="showModal" @data="getData"></user-card>
-    <div class="flex flex-center q-gutter-xl">
+    <div class="flex flex-center q-mt-xl q-gutter-xl">
       <q-btn @click="voltar(this.page)" color="primary" icon="navigate_before" />
       <q-btn @click="seguir(this.page, this.totalPages)" color="primary" icon="navigate_next" />
     </div>
@@ -32,13 +32,23 @@ export default {
     }
   },
 
+  components: {
+    UserCard,
+    FormUser
+  },
+
   computed: {
     ...mapState('users', ['users', 'page', 'totalPages', 'user'])
   },
 
-  components: {
-    UserCard,
-    FormUser
+  watch: {
+    '$route.params.page': {
+      handler: function (page) {
+        this.carregaPagina(page)
+      },
+      deep: true,
+      immediate: true
+    }
   },
 
   methods: {
@@ -47,12 +57,10 @@ export default {
     voltar (page) {
       const previousPage = (page > 1) ? (page - 1) : page
       this.$router.push({ path: `/${previousPage}` })
-      this.carregaPagina(previousPage)
     },
     seguir (page, total) {
       const nextPage = (page < total) ? (page + 1) : page
       this.$router.push({ path: `/${nextPage}` })
-      this.carregaPagina(nextPage)
     },
     criar () {
       this.id = null
