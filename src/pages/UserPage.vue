@@ -54,7 +54,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('users', ['buscaUsuario']),
+    ...mapActions('usuarios', ['buscaUsuario']),
     async editar (id) {
       const response = await this.buscaUsuario(id)
       this.user = await response.data

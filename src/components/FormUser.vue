@@ -24,6 +24,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'FormUser',
+
   data () {
     return {
       funcoes: [
@@ -41,39 +42,59 @@ export default {
   },
 
   props: {
-    id: {
-      type: Number
-    },
-    nome: {
-      type: String
-    },
-    showModal: {
-      type: Function
-    }
+    id: Number,
+    nome: String,
+    showModal: Function
   },
 
   methods: {
-    ...mapActions('users', ['criarUsuario', 'alterarUsuario']),
+    ...mapActions('usuarios', ['criarUsuario', 'alterarUsuario']),
     onSubmit () {
-      console.log(this.form.id)
       if (this.form.id === null) {
         if (this.form.nome !== null && this.form.funcao !== null) {
           this.criarUsuario(this.form)
-          alert('Usuário criado com sucesso \n(será trocado pelo sweet alert)')
-          this.showModal()
+            .then(
+              this.usuarioCriadoSucesso(),
+              this.showModal()
+            ).catch((error) => {
+              this.showError(error)
+            })
         } else {
-          alert('Nome e Função são campos obrigatórios \n(será trocado pelo sweet alert)')
+          this.showError('Nome e Função são campos obrigatórios')
         }
       } else {
-        alert('Usuário alterado com sucesso \n(será trocado pelo sweet alert)')
-        this.alterarUsuario(this.form)
-        this.showModal()
+        try {
+          this.alterarUsuario(this.form)
+        } catch (error) {
+          this.showError(error)
+        } finally {
+          this.showModal()
+          this.usuarioAlteradoSucesso()
+        }
       }
     },
     onReset () {
       this.form.id = null
       this.form.nome = null
       this.form.funcao = null
+    },
+    usuarioAlteradoSucesso () {
+      this.$q.notify({
+        message: 'Usuário alterado com sucesso',
+        color: 'purple'
+      })
+    },
+    usuarioCriadoSucesso () {
+      this.$q.notify({
+        message: 'Usuário criado com sucesso',
+        color: 'purple'
+      })
+    },
+    showError (error) {
+      this.$q.notify({
+        message: error,
+        color: 'red'
+      })
     }
   }
 

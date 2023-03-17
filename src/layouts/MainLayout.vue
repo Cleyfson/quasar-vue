@@ -2,13 +2,13 @@
   <q-layout class="">
     <q-banner class="q-mb-xl bg-primary text-white">
       <template v-slot:action>
-        <q-btn flat color="white" label="Novo Usuario" @click="criar()" />
+        <q-btn flat color="white" label="Novo Usuario" @click="criarUsuario()" />
       </template>
     </q-banner>
     <q-dialog v-model="opened">
       <form-user :showModal="showModal" :id="id" :nome="nome"></form-user>
     </q-dialog>
-    <user-card :showModal="showModal" @data="getData"></user-card>
+    <user-card :usuarios="usuarios" :showModal="showModal" :deletar="deletar" @data="getData"></user-card>
     <div class="flex flex-center q-mt-xl q-gutter-xl">
       <q-btn @click="voltar(this.page)" color="primary" icon="navigate_before" />
       <q-btn @click="seguir(this.page, this.totalPages)" color="primary" icon="navigate_next" />
@@ -19,16 +19,34 @@
 <script>
 import FormUser from 'src/components/FormUser.vue'
 import UserCard from 'src/components/UserCard.vue'
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
+import { useQuasar } from 'quasar'
 
 export default {
   name: 'MainLayout',
 
+  setup () {
+    const $q = useQuasar()
+
+    $q.loading.show({
+      delay: 400 // ms
+    })
+
+    $q.loading.hide()
+  },
+
   data () {
     return {
-      opened: false,
-      id: null,
-      nome: null
+      usuarios: null,
+      usuariosPorPagina: null,
+      pagina: null,
+      totalPages: null,
+      total: null,
+      usuario: {
+        id: null,
+        nome: null
+      },
+      opened: null
     }
   },
 
@@ -37,34 +55,25 @@ export default {
     FormUser
   },
 
-  computed: {
-    ...mapState('users', ['users', 'page', 'totalPages', 'user'])
-  },
-
-  watch: {
-    '$route.params.page': {
-      handler: function (page) {
-        this.carregaPagina(page)
-      },
-      deep: true,
-      immediate: true
-    }
-  },
-
   methods: {
-    ...mapActions('users', ['carregaPagina', 'buscaUsuario', 'deletarUsuario']),
+    ...mapActions('usuarios', ['carregaPagina', 'deletarUsuario']),
 
-    voltar (page) {
-      const previousPage = (page > 1) ? (page - 1) : page
+    voltar (pagina) {
+      const previousPage = (pagina > 1) ? (pagina - 1) : pagina
       this.$router.push({ path: `/${previousPage}` })
+      this.getUsuarios(previousPage)
     },
-    seguir (page, total) {
-      const nextPage = (page < total) ? (page + 1) : page
+    seguir (pagina, total) {
+      const nextPage = (pagina < total) ? (pagina + 1) : pagina
       this.$router.push({ path: `/${nextPage}` })
+      this.getUsuarios(nextPage)
     },
-    criar () {
+    resetForm () {
       this.id = null
       this.nome = null
+    },
+    criarUsuario () {
+      this.resetForm()
       this.showModal()
     },
     showModal: function () {
@@ -78,12 +87,31 @@ export default {
       this.id = data.data.id
       this.nome = `${data.data.first_name} ${data.data.last_name}`
       this.showModal()
+    },
+    getUsuarios (pagina) {
+      this.carregaPagina(pagina)
+        .then((response) => {
+          this.usuarios = response.data.data
+          this.page = response.data.page
+          this.perPage = response.data.per_page
+          this.total = response.data.total
+          this.totalPages = response.data.total_pages
+        }).catch((error) => {
+          console.log(error)
+        })
+    },
+    deletar (id) {
+      console.log('deletar')
+      this.deletarUsuario(id)
+        .then(
+          this.usuarios = this.usuarios.filter((usuario) => usuario.id !== id)
+        )
     }
   },
 
   mounted () {
-    const page = this.$route.params.page
-    this.carregaPagina(page)
+    const pagina = this.$route.params.page
+    this.getUsuarios(pagina)
   }
 
 }

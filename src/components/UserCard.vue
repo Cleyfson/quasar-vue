@@ -1,59 +1,50 @@
 <template>
   <div class="flex justify-around q-mx-md" style="min-height: 60vh; gap: 3rem;">
-    <q-card class="my-card flex row justify-between" v-for="(user, index) in users" :key="user.id">
+    <q-card class="my-card flex row justify-between" v-for="(usuario) in usuarios" :key="usuario.id">
       <div class="flex row flex-center">
         <q-card-section>
           <q-avatar size="5rem" rounded>
-            <img :src="user.avatar" />
+            <img :src="usuario.avatar" />
           </q-avatar>
         </q-card-section>
 
         <q-card-section>
           <div class="text-h6">
-            {{ `${user.first_name} ${user.last_name}` }}
+            {{ `${usuario.first_name} ${usuario.last_name}` }}
           </div>
-          <div class="text-subtitle2">{{ user.email }}</div>
+          <div class="text-subtitle2">{{ usuario.email }}</div>
         </q-card-section>
       </div>
-      <q-card-section class="self-center q-gutter-md">
-        <span class="material-icons md-24" @click="editar(user.id)"> edit </span>
-        <span class="material-icons md-24" @click="deletar(user.id, index)"> delete </span>
-        <span class="material-icons md-24" @click="detalhes(user.id)"> visibility </span>
+      <q-card-section class="self-center">
+        <span class="material-icons md-24 q-px-xs" @click="editar(usuario.id)"> edit </span>
+        <span class="material-icons md-24 q-px-xs" @click="deletar(usuario.id)"> delete </span>
+        <span class="material-icons md-24 q-px-xs" @click="detalhes(usuario.id)"> visibility </span>
       </q-card-section>
     </q-card>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'UserCard',
 
   props: {
-    showModal: {
-      type: Function
-    },
-    fillForm: {
-      type: Function
-    }
-  },
-
-  computed: {
-    ...mapState('users', ['users'])
+    showModal: Function,
+    deletar: Function,
+    fillForm: Function,
+    usuarios: Array
   },
 
   methods: {
-    ...mapActions('users', ['carregaPagina']),
+    ...mapActions('usuarios', ['carregaPagina', 'buscaUsuario', 'alterarUsuario']),
     async editar (id) {
       const data = await this.buscaUsuario(id)
       this.$emit('data', data.data)
     },
     detalhes (id) {
       this.$router.push({ path: `/detalhes-usuario/${id}` })
-    },
-    deletar (id, index) {
-      this.deletarUsuario(id, index)
     }
   }
 }
