@@ -91,6 +91,12 @@ export default {
     getUsuarios (pagina) {
       this.carregaPagina(pagina)
         .then((response) => {
+          // console.log(response.data)
+          // this.usuarios = response.data.data
+          // this.page = response.data.meta.current_page
+          // this.perPage = response.data.meta.per_page
+          // this.total = response.data.meta.total
+          // this.totalPages = response.data.meta.last_page
           this.usuarios = response.data.data
           this.page = response.data.page
           this.perPage = response.data.per_page
