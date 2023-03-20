@@ -43,9 +43,10 @@ const actions = {
   async criarUsuario (context, form) {
     Loading.show()
     return new Promise((resolve, reject) => {
-      axios.post('https://reqres.in/api/users/', form)
+      axios.post('http://localhost:8000/api/users/', form)
         .then((response) => {
           Loading.hide()
+          console.log(response)
           resolve(response)
         })
         .catch((error) => {
