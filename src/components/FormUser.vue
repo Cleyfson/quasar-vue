@@ -64,6 +64,7 @@ export default {
         }
       } else {
         try {
+          this.$emit('altereUsuario', this.form)
           this.alterarUsuario(this.form)
         } catch (error) {
           this.showError(error)

@@ -6,7 +6,7 @@
       </template>
     </q-banner>
     <q-dialog v-model="opened">
-      <form-user :showModal="showModal" :id="id" :nome="nome"></form-user>
+      <form-user :showModal="showModal" :id="id" :nome="nome" @altereUsuario="altereUsuario"></form-user>
     </q-dialog>
     <user-card :usuarios="usuarios" :showModal="showModal" :deletar="deletar" @data="getData"></user-card>
     <div class="flex flex-center q-mt-xl q-gutter-xl">
@@ -88,26 +88,26 @@ export default {
       this.nome = `${data.first_name} ${data.last_name}`
       this.showModal()
     },
+    altereUsuario (data) {
+      const usuario = this.usuarios.find(usuario => usuario.id === data.id)
+      console.log(usuario)
+      const nameArray = data.nome.split(' ')
+      usuario.first_name = nameArray[0]
+      usuario.last_name = nameArray[1]
+    },
     getUsuarios (pagina) {
       this.carregaPagina(pagina)
         .then((response) => {
-          // console.log(response.data)
-          // this.usuarios = response.data.data
-          // this.page = response.data.meta.current_page
-          // this.perPage = response.data.meta.per_page
-          // this.total = response.data.meta.total
-          // this.totalPages = response.data.meta.last_page
           this.usuarios = response.data.data
-          this.page = response.data.page
-          this.perPage = response.data.per_page
-          this.total = response.data.total
-          this.totalPages = response.data.total_pages
+          this.page = response.data.meta.current_page
+          this.perPage = response.data.meta.per_page
+          this.total = response.data.meta.total
+          this.totalPages = response.data.meta.last_page
         }).catch((error) => {
           console.log(error)
         })
     },
     deletar (id) {
-      console.log('deletar')
       this.deletarUsuario(id)
         .then(
           this.usuarios = this.usuarios.filter((usuario) => usuario.id !== id)

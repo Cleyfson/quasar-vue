@@ -11,7 +11,7 @@ const actions = {
   async carregaPagina (context, pg = 1) {
     Loading.show()
     return new Promise((resolve, reject) => {
-      axios.get(`https://reqres.in/api/users?page=${pg}`)
+      axios.get(`http://localhost:8000/api/users?page=${pg}`)
         .then((response) => {
           resolve(response)
         })
@@ -74,7 +74,7 @@ const actions = {
   },
   async deletarUsuario (context, id) {
     return new Promise((resolve, reject) => {
-      axios.delete(`https://reqres.in/api/users/${id}`)
+      axios.delete(`http://localhost:8000/api/users/${id}`)
         .then((response) => {
           resolve(response)
         })

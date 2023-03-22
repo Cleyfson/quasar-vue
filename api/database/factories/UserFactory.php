@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'avatar' => fake()->image(null, 360, 360),
+            'avatar' => fake()->imageUrl(360, 360),
         ];
     }
 }

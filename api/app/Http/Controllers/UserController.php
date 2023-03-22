@@ -11,7 +11,7 @@ use Mockery\Undefined;
 class UserController extends Controller
 {
     public function index() {
-        $users = User::paginate(5);
+        $users = User::paginate(6);
         return UserResource::collection($users);
     }
 
@@ -26,7 +26,7 @@ class UserController extends Controller
         $user->email = fake()->unique()->safeEmail();
         $user->first_name = $names[0];
         $user->last_name = (isset($names[1]))  ? $names[1] : fake()->lastName();
-        $user->avatar = fake()->image(null, 360, 360);
+        $user->avatar = fake()->imageUrl(360, 360);
         $user->save();
 
         return $user;
@@ -41,5 +41,10 @@ class UserController extends Controller
         $user->update();
 
         return $user;
+    }
+
+    public function destroy(Request $request, $id) {
+        $user = User::findOrFail($id);
+        $user->delete();
     }
 }
