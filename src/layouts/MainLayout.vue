@@ -84,8 +84,8 @@ export default {
       }
     },
     getData (data) {
-      this.id = data.data.id
-      this.nome = `${data.data.first_name} ${data.data.last_name}`
+      this.id = data.id
+      this.nome = `${data.first_name} ${data.last_name}`
       this.showModal()
     },
     getUsuarios (pagina) {

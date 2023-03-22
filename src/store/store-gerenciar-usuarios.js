@@ -27,7 +27,7 @@ const actions = {
   async buscaUsuario (context, id) {
     Loading.show()
     return new Promise((resolve, reject) => {
-      axios.get(`https://reqres.in/api/users/${id}`)
+      axios.get(`http://localhost:8000/api/users/${id}`)
         .then((response) => {
           resolve(response)
         })
@@ -60,7 +60,7 @@ const actions = {
   },
   async alterarUsuario (context, form) {
     return new Promise((resolve, reject) => {
-      axios.put(`https://reqres.in/api/users/${form.id}`, form)
+      axios.put(`http://localhost:8000/api/users/${form.id}`, form)
         .then((response) => {
           resolve(response)
         })
