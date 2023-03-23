@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-around q-mx-md" style="min-height: 60vh; gap: 3rem;">
-    <q-card class="my-card flex row justify-between" v-for="(usuario) in usuarios" :key="usuario.id">
+    <q-card class="my-card flex row justify-between"  style="max-height: 10em;" v-for="(usuario) in usuarios" :key="usuario.id">
       <div class="flex row flex-center">
         <q-card-section>
           <q-avatar size="5rem" rounded>

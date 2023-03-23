@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHr LpR lFf" class="flex flex-center bg-cyan-7">
-    <q-card v-if="user" class="my-card" style="border: 1px solid black;">
-      <!-- <q-img width="25rem" :src="user.avatar"></q-img> -->
+    <q-card v-if="user" class="my-card" style="border: 1px solid black; max-width: 25rem;">
+      <q-img width="25rem" :src="user.avatar"></q-img>
       <q-card-section>
         <div class="row no-wrap items-center">
           <div class="col text-h6 ellipsis">
@@ -12,25 +12,22 @@
           {{ user.email }}
         </div>
       </q-card-section>
-<!--
+
       <q-card-section class="q-pt-none">
         <div class="text-subtitle2">
           Link do avatar: <a :href="user.avatar">{{ user.avatar }}</a>
         </div>
-        <div class="text-subtitle2">
-          Link do suporte: <a :href="user.support.url">{{ user.support.url }}</a>
-        </div>
-      </q-card-section> -->
-<!--
+      </q-card-section>
+
       <q-separator />
 
       <q-card-section width="100%">
         <div style="max-width: 350px;">
-          {{ user.support.text }}
+          {{ lorem }}
         </div>
       </q-card-section>
 
-      <q-separator /> -->
+      <q-separator />
 
       <q-card-section class="flex flex-center">
         <q-btn @click="voltar" size="22px" class="q-px-xl q-py-xs" color="purple" label="voltar" />
@@ -59,7 +56,7 @@ export default {
       this.user = await response.data
     },
     voltar () {
-      this.$router.push({ name: 'listagem-usuarios' })
+      this.$router.go(-1)
     }
   },
 

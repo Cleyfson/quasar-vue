@@ -1,6 +1,6 @@
 <template>
   <q-card class="q-pa-md">
-    <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <q-form @submit="submit" @reset="onReset" class="q-gutter-md">
       <q-card-section>
         <div class="text-h6">Crie um novo usuario</div>
         <div class="text-subtitle1">Preencha o seguinte formulário para criar um novo usuario.</div>
@@ -49,29 +49,31 @@ export default {
 
   methods: {
     ...mapActions('usuarios', ['criarUsuario', 'alterarUsuario']),
+    submit () {
+      try {
+        this.onSubmit()
+      } catch (error) {
+        console.log(error)
+      }
+    },
     onSubmit () {
-      if (this.form.id === null) {
-        if (this.form.nome !== null && this.form.funcao !== null) {
+      if (this.form.nome !== null && this.form.funcao !== null) {
+        if (this.form.id === null) {
           this.criarUsuario(this.form)
             .then(
               this.usuarioCriadoSucesso(),
               this.showModal()
-            ).catch((error) => {
-              this.showError(error)
-            })
+            ).catch(error => this.showError(error))
         } else {
-          this.showError('Nome e Função são campos obrigatórios')
+          this.alterarUsuario(this.form)
+            .then(
+              this.$emit('altereUsuario', this.form),
+              this.usuarioAlteradoSucesso(),
+              this.showModal()
+            ).catch(error => this.showError(error))
         }
       } else {
-        try {
-          this.$emit('altereUsuario', this.form)
-          this.alterarUsuario(this.form)
-        } catch (error) {
-          this.showError(error)
-        } finally {
-          this.showModal()
-          this.usuarioAlteradoSucesso()
-        }
+        this.showError('Nome e Função são campos obrigatórios')
       }
     },
     onReset () {

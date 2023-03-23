@@ -2,16 +2,39 @@
   <q-layout class="">
     <q-banner class="q-mb-xl bg-primary text-white">
       <template v-slot:action>
-        <q-btn flat color="white" label="Novo Usuario" @click="criarUsuario()" />
+        <q-btn
+          flat color="white"
+          label="Novo Usuario"
+          @click="criarUsuario()"
+        />
       </template>
     </q-banner>
     <q-dialog v-model="opened">
-      <form-user :showModal="showModal" :id="id" :nome="nome" @altereUsuario="altereUsuario"></form-user>
+      <form-user
+        :showModal="showModal"
+        :id="id" :nome="nome"
+        @altereUsuario="altereUsuario"
+        @crieUsuario="crieUsuario">
+      </form-user>
     </q-dialog>
-    <user-card :usuarios="usuarios" :showModal="showModal" :deletar="deletar" @data="getData"></user-card>
+    <user-card
+      :usuarios="usuarios"
+      :showModal="showModal"
+      :deletar="deletar"
+      @data="getData">
+    </user-card>
+
     <div class="flex flex-center q-mt-xl q-gutter-xl">
-      <q-btn @click="voltar(this.page)" color="primary" icon="navigate_before" />
-      <q-btn @click="seguir(this.page, this.totalPages)" color="primary" icon="navigate_next" />
+      <q-btn
+        @click="voltar(this.page)"
+        color="primary"
+        icon="navigate_before"
+        />
+      <q-btn
+        @click="seguir(this.page, this.totalPages)"
+        color="primary"
+        icon="navigate_next"
+      />
     </div>
   </q-layout>
 </template>

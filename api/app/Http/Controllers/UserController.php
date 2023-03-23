@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\userFormRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Facade;
 use Mockery\Undefined;
+use PhpParser\Node\Stmt\TryCatch;
 
 class UserController extends Controller
 {
@@ -15,12 +17,12 @@ class UserController extends Controller
         return UserResource::collection($users);
     }
 
-    public function show(Request $request, $id) {
+    public function show($id) {
         $user = User::findOrFail($id);
         return $user;
     }
 
-    public function create(Request $request) {
+    public function create(userFormRequest $request) {
         $names = explode(' ', $request->nome);
         $user = new User;
         $user->email = fake()->unique()->safeEmail();
@@ -32,19 +34,32 @@ class UserController extends Controller
         return $user;
     }
 
-    public function update(Request $request, $id) {
-        $user = User::findOrFail($id);
+    public function update(userFormRequest $request, $id) {
 
-        $names = explode(' ', $request->nome);
-        $user->first_name = $names[0];
-        $user->last_name = (isset($names[1]))  ? $names[1] : fake()->lastName();
-        $user->update();
-
-        return $user;
+        if ($user = User::findOrFail($id)) {
+            $names = explode(' ', $request->nome);
+            $user->first_name = $names[0];
+            $user->last_name = (isset($names[1]))  ? $names[1] : fake()->lastName();
+            $user->update();
+            return $user;
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => "Não foi possivel encontrar usuario"
+            ], 422);
+        }
     }
 
-    public function destroy(Request $request, $id) {
-        $user = User::findOrFail($id);
-        $user->delete();
+    public function destroy($id) {
+
+        if ($user = User::findOrFail($id)) {
+            $user->delete();
+            return $user;
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => "Não foi possivel encontrar usuario."
+            ], 422);
+        }
     }
 }
