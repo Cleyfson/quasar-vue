@@ -9,15 +9,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Facade;
 use Mockery\Undefined;
 use PhpParser\Node\Stmt\TryCatch;
+use Hashids\Hashids;
+use App\Http\Controllers\Reuso;
+
 
 class UserController extends Controller
 {
+    protected $reuso;
+
+    public function __construct(Reuso $reuso) {
+        $this->reuso = $reuso;
+    }
+
     public function index() {
         $users = User::paginate(6);
         return UserResource::collection($users);
     }
 
-    public function show($id) {
+    public function show($id_hash) {
+        $id = $this->reuso->descriptografarId($id_hash);
         $user = User::findOrFail($id);
         return $user;
     }
@@ -34,7 +44,9 @@ class UserController extends Controller
         return $user;
     }
 
-    public function update(userFormRequest $request, $id) {
+    public function update(userFormRequest $request, $id_hash) {
+
+        $id = $this->reuso->descriptografarId($id_hash);
 
         if ($user = User::findOrFail($id)) {
             $names = explode(' ', $request->nome);
@@ -50,7 +62,9 @@ class UserController extends Controller
         }
     }
 
-    public function destroy($id) {
+    public function destroy($id_hash) {
+
+        $id = $this->reuso->descriptografarId($id_hash);
 
         if ($user = User::findOrFail($id)) {
             $user->delete();

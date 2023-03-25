@@ -1,7 +1,11 @@
 <template>
-  <q-layout view="hHr LpR lFf" class="flex flex-center bg-cyan-7">
-    <q-card v-if="user" class="my-card" style="border: 1px solid black; max-width: 25rem;">
-      <q-img width="25rem" :src="user.avatar"></q-img>
+  <q-layout view="hHr LpR lFf"
+            class="flex flex-center bg-cyan-7">
+    <q-card v-if="user"
+            class="my-card"
+            style="border: 1px solid black; max-width: 25rem;">
+      <q-img width="25rem"
+             :src="user.avatar"></q-img>
       <q-card-section>
         <div class="row no-wrap items-center">
           <div class="col text-h6 ellipsis">
@@ -21,16 +25,12 @@
 
       <q-separator />
 
-      <q-card-section width="100%">
-        <div style="max-width: 350px;">
-          {{ lorem }}
-        </div>
-      </q-card-section>
-
-      <q-separator />
-
       <q-card-section class="flex flex-center">
-        <q-btn @click="voltar" size="22px" class="q-px-xl q-py-xs" color="purple" label="voltar" />
+        <q-btn @click="voltar"
+               size="22px"
+               class="q-px-xl q-py-xs"
+               color="purple"
+               label="voltar" />
       </q-card-section>
     </q-card>
     <div v-else>
