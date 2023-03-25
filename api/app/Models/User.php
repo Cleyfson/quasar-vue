@@ -18,7 +18,8 @@ class User extends Model
     ];
 
     protected $appends = [
-        'id_hash'
+        'id_hash',
+        'full_name'
     ];
 
     protected $hidden = [
@@ -30,5 +31,10 @@ class User extends Model
         $hashid = new Hashids();
         $idCriptografado = $hashid->encode($this->id, 1, 2);
         return $idCriptografado;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 }
