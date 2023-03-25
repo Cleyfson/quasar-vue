@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Hashids\Hashids;
+use App\Model\Address;
 
 class User extends Model
 {
@@ -36,5 +37,10 @@ class User extends Model
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }
