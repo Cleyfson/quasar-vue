@@ -100,12 +100,12 @@ export default {
       }
     },
     getData (data) {
-      this.id = data.id
+      this.id = data.id_hash
       this.nome = `${data.first_name} ${data.last_name}`
       this.showModal()
     },
     altereUsuario (data) {
-      const usuario = this.usuarios.find(usuario => usuario.id === data.id)
+      const usuario = this.usuarios.find(usuario => usuario.id_hash === data.id)
       console.log(usuario)
       const nameArray = data.nome.split(' ')
       usuario.first_name = nameArray[0]

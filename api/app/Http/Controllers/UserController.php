@@ -28,7 +28,12 @@ class UserController extends Controller
 
     public function show($id_hash) {
         $id = $this->reuso->descriptografarId($id_hash);
-        $user = User::findOrFail($id);
+        if (!$user = User::findOrFail($id)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Desculpe, Nao foi possivel encontrar usuario'
+            ], 422);
+        }
         return $user;
     }
 
@@ -39,41 +44,44 @@ class UserController extends Controller
         $user->first_name = $names[0];
         $user->last_name = (isset($names[1]))  ? $names[1] : fake()->lastName();
         $user->avatar = fake()->imageUrl(360, 360);
-        $user->save();
+
+        if(!$user->save()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao criar novo usuario'
+            ], 422);
+        };
 
         return $user;
     }
 
     public function update(userFormRequest $request, $id_hash) {
-
         $id = $this->reuso->descriptografarId($id_hash);
 
-        if ($user = User::findOrFail($id)) {
-            $names = explode(' ', $request->nome);
-            $user->first_name = $names[0];
-            $user->last_name = (isset($names[1]))  ? $names[1] : fake()->lastName();
-            $user->update();
-            return $user;
-        } else {
+        if (!$user = User::findOrFail($id)) {
             return response()->json([
                 'success' => false,
-                'message' => "Não foi possivel encontrar usuario"
+                'message' => 'Desculpe, o administrador não pode ser excluido.'
             ], 422);
         }
+
+        $names = explode(' ', $request->nome);
+        $user->first_name = $names[0];
+        $user->last_name = (isset($names[1]))  ? $names[1] : fake()->lastName();
+        $user->update();
+        return $user;
     }
 
     public function destroy($id_hash) {
-
         $id = $this->reuso->descriptografarId($id_hash);
-
-        if ($user = User::findOrFail($id)) {
-            $user->delete();
-            return $user;
-        } else {
+        if (!$user = User::findOrFail($id)) {
             return response()->json([
                 'success' => false,
-                'message' => "Não foi possivel encontrar usuario."
+                'message' => 'Desculpe, o administrador não pode ser excluido.'
             ], 422);
         }
+
+        $user->delete();
+        return $user;
     }
 }

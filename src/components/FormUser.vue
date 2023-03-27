@@ -42,7 +42,7 @@ export default {
   },
 
   props: {
-    id: Number,
+    id: String,
     nome: String,
     showModal: Function
   },
