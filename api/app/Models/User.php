@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Hashids\Hashids;
 use App\Model\Address;
 
-class User extends Model
+class User extends Model implements JWTSubject
 {
     use HasFactory;
 
@@ -42,5 +43,25 @@ class User extends Model
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+     /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

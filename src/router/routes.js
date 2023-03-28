@@ -1,7 +1,13 @@
 import MainLayout from '../layouts/MainLayout'
 import UserPage from '../pages/UserPage'
+import LoginPage from '../pages/LoginPage'
 
 const routes = [
+  {
+    path: '/login',
+    component: LoginPage,
+    name: 'Login'
+  },
   {
     path: '/:page?',
     component: MainLayout,
