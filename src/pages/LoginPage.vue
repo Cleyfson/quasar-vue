@@ -11,7 +11,7 @@
                     bordered
                     class="q-pa-lg shadow-1">
               <q-card-section>
-                <q-form class="q-gutter-md">
+                <q-form @submit.stop.prevent="login" class="q-gutter-md">
                   <q-input square
                            filled
                            clearable
@@ -24,15 +24,14 @@
                            v-model="password"
                            type="password"
                            label="password" />
+                  <q-btn unelevated
+                        color="light-green-7"
+                        size="lg"
+                        class="full-width"
+                        label="Login"
+                        type="submit" />
                 </q-form>
               </q-card-section>
-              <q-card-actions class="q-px-md">
-                <q-btn unelevated
-                       color="light-green-7"
-                       size="lg"
-                       class="full-width"
-                       label="Login" />
-              </q-card-actions>
               <q-card-section class="text-center q-pa-none">
                 <p class="text-grey-6">Not reigistered? Created an Account</p>
               </q-card-section>
@@ -51,6 +50,25 @@ export default {
     return {
       email: '',
       password: ''
+    }
+  },
+  methods: {
+
+    login () {
+      const payload = {
+        email: this.email,
+        password: this.password
+      }
+
+      fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }).then((response) => response.json())
+        .then((response) => console.log(response))
     }
   }
 }

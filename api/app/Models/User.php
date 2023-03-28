@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Hashids\Hashids;
 use App\Model\Address;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model implements JWTSubject
+
+class User extends Authenticatable implements JWTSubject
 {
     use HasFactory;
 
