@@ -11,12 +11,14 @@ const routes = [
   {
     path: '/:page?',
     component: MainLayout,
-    name: 'listagem-usuarios'
+    name: 'listagem-usuarios',
+    meta: { requiresAuth: true }
   },
   {
     path: '/detalhes-usuario/:id',
     component: UserPage,
-    name: 'detalhes-usuario'
+    name: 'detalhes-usuario',
+    meta: { requiresAuth: true }
   },
   // Always leave this as last one,
   // but you can also remove it

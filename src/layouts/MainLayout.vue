@@ -4,7 +4,11 @@
       <template v-slot:action>
         <q-btn flat
                color="white"
-               label="Novo Usuario"
+               label="Logout"
+               @click="logout()" />
+        <q-btn flat
+               color="white"
+               label="Cria novo usuario"
                @click="criarUsuario()" />
       </template>
     </q-banner>
@@ -72,7 +76,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('usuarios', ['carregaPagina', 'deletarUsuario']),
+    ...mapActions('usuarios', ['carregaPagina', 'deletarUsuario', 'logout']),
 
     voltar (pagina) {
       const previousPage = (pagina > 1) ? (pagina - 1) : pagina

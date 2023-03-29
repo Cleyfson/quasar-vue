@@ -6120,6 +6120,11 @@ vary@~1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
+vue-acl@^4.1.10:
+  version "4.1.10"
+  resolved "https://registry.yarnpkg.com/vue-acl/-/vue-acl-4.1.10.tgz#55e76785cb45c10a485a48f5bd5ea110a07accef"
+  integrity sha512-00+zT1jbzLTUfNBYcM9gmzNF5WT3UCYA1fJm+zu3JK25RdSi+AfFEmLDi8pvStdxZqDDqIIZlhUsx9+OFv7N0w==
+
 vue-eslint-parser@^9.0.1:
   version "9.1.0"
   resolved "https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-9.1.0.tgz"

@@ -11,17 +11,17 @@
                     bordered
                     class="q-pa-lg shadow-1">
               <q-card-section>
-                <q-form @submit.stop.prevent="login" class="q-gutter-md">
+                <q-form @submit.stop.prevent="userLogin" class="q-gutter-md">
                   <q-input square
                            filled
                            clearable
-                           v-model="email"
+                           v-model="form.email"
                            type="email"
                            label="email" />
                   <q-input square
                            filled
                            clearable
-                           v-model="password"
+                           v-model="form.password"
                            type="password"
                            label="password" />
                   <q-btn unelevated
@@ -44,31 +44,26 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import axios from 'axios'
+
 export default {
   name: 'LoginPage',
   data () {
     return {
-      email: '',
-      password: ''
+      form: {
+        email: '',
+        password: ''
+      }
     }
   },
   methods: {
-
-    login () {
-      const payload = {
-        email: this.email,
-        password: this.password
-      }
-
-      fetch('http://localhost:8000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(payload)
-      }).then((response) => response.json())
-        .then((response) => console.log(response))
+    ...mapActions('usuarios', ['login']),
+    userLogin () {
+      axios.post('http://localhost:8000/api/login', this.form)
+        .then((response) => {
+          this.login(response)
+        })
     }
   }
 }

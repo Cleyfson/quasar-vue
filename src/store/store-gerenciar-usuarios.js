@@ -2,12 +2,19 @@ import axios from 'axios'
 import { Loading } from 'quasar'
 
 const state = {
+  token: null
 }
 
 const mutations = {
+  SET_TOKEN (state, token) {
+    state.token = token
+  }
 }
 
 const actions = {
+  login (context, data) {
+    context.commit('SET_TOKEN', data.data.access_token)
+  },
   async carregaPagina (context, pg = 1) {
     Loading.show()
     return new Promise((resolve, reject) => {
@@ -85,6 +92,10 @@ const actions = {
           Loading.hide()
         })
     })
+  },
+  logout (context) {
+    context.commit('SET_TOKEN', null)
+    this.$router.push({ name: 'Login' })
   }
 }
 const getters = {
