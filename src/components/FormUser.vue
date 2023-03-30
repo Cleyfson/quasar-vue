@@ -53,51 +53,38 @@ export default {
       try {
         this.onSubmit()
       } catch (error) {
-        console.log(error)
+        this.mensagemErro('Erro ao submeter dados do usuario', error)
       }
     },
     onSubmit () {
       if (this.form.nome !== null && this.form.funcao !== null) {
         if (this.form.id === null) {
           this.criarUsuario(this.form)
-            .then(
-              this.usuarioCriadoSucesso(),
+            .then((response) => {
+              this.mensagemSucesso('Usuario criado com sucesso')
               this.showModal()
-            ).catch(error => this.showError(error))
+            }).catch((error) => {
+              this.mensagemErro('Erro ao criar usuario', error)
+            })
         } else {
           this.alterarUsuario(this.form)
-            .then(
-              this.$emit('altereUsuario', this.form),
-              this.usuarioAlteradoSucesso(),
+            .then((response) => {
+              this.$emit('altereUsuario', this.form)
+              this.mensagemSucesso('Usuario alterado com sucesso')
               this.showModal()
-            ).catch(error => this.showError(error))
+            }
+            ).catch((error) => {
+              this.mensagemErro('Erro ao alterar usuario', error)
+            })
         }
       } else {
-        this.showError('Nome e Função são campos obrigatórios')
+        this.mensagemWarning('Nome e função são campos obrigatorios')
       }
     },
     onReset () {
       this.form.id = null
       this.form.nome = null
       this.form.funcao = null
-    },
-    usuarioAlteradoSucesso () {
-      this.$q.notify({
-        message: 'Usuário alterado com sucesso',
-        color: 'purple'
-      })
-    },
-    usuarioCriadoSucesso () {
-      this.$q.notify({
-        message: 'Usuário criado com sucesso',
-        color: 'purple'
-      })
-    },
-    showError (error) {
-      this.$q.notify({
-        message: error,
-        color: 'red'
-      })
     }
   }
 

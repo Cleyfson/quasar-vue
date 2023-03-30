@@ -1,7 +1,8 @@
 import { Notify, Loading } from 'quasar'
 
-export default function ({ app, store, router }) {
+export default function ({ Vue, app, store, router }) {
   const reuso = {
+
     msgErro: '',
     objErros: '',
     mensagemErro (msg, error = '') {
@@ -69,6 +70,62 @@ export default function ({ app, store, router }) {
       return false
     }
   }
+
+  app.mixin({
+    beforeCreate () {
+      const options = this.$options
+      if (options.reuso) {
+        this.$reuso = options.reuso
+      } else if (options.parent) {
+        this.$reuso = options.parent.$reuso
+      }
+      this.mensagemErro = function (msg, error = '') {
+        this.objErros = ''
+        this.msgErro = ''
+        if (error !== '' && error.response.status !== 422) {
+          this.msgErro = `<br/> ${error.response.data.message} <br/> Caso persista entre em contato com o suporte (suporte@dti.ufmg.br). <br/> Status ${error.response.status} ${error.response.statusText}`
+        } else if (error !== '' && error.response.status === 422) {
+          this.msgErro = `<br/> ${error.response.data.message}`
+        }
+        Notify.create({
+          message: `${msg} ${this.msgErro}`,
+          color: 'negative',
+          textColor: 'white',
+          position: 'center',
+          icon: 'report_problem',
+          timeout: 10000,
+          html: true,
+          closeBtn: 'X'
+        })
+        if (error !== '' && error.response.data.message === 'Token has expired') {
+          router.push({ name: 'inicio' })
+        }
+      }
+      this.mensagemSucesso = function (msg) {
+        Notify.create({
+          message: msg,
+          color: 'green-4',
+          textColor: 'white',
+          position: 'center',
+          icon: 'cloud_done',
+          timeout: 5000,
+          html: true
+        })
+      }
+      this.mensagemWarning = function (msg) {
+        Notify.create({
+          message: msg,
+          color: 'warning',
+          textColor: 'white',
+          position: 'top',
+          icon: 'cloud_done',
+          timeout: 10000,
+          html: true,
+          closeBtn: 'X'
+        })
+      }
+    }
+  })
   app.reuso = reuso
   store.$reuso = reuso
 }

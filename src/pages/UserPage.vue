@@ -4,7 +4,7 @@
     <q-card v-if="user"
             class="my-card"
             style="border: 1px solid black; max-width: 25rem;">
-      <q-img width="25rem"
+      <q-img width="100%"
              :src="user.avatar"></q-img>
       <q-card-section>
         <div class="row no-wrap items-center">

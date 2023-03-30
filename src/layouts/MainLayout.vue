@@ -40,20 +40,9 @@
 import FormUser from 'src/components/FormUser.vue'
 import UserCard from 'src/components/UserCard.vue'
 import { mapActions } from 'vuex'
-import { useQuasar } from 'quasar'
 
 export default {
   name: 'MainLayout',
-
-  setup () {
-    const $q = useQuasar()
-
-    $q.loading.show({
-      delay: 400 // ms
-    })
-
-    $q.loading.hide()
-  },
 
   data () {
     return {
@@ -110,7 +99,6 @@ export default {
     },
     altereUsuario (data) {
       const usuario = this.usuarios.find(usuario => usuario.id_hash === data.id)
-      console.log(usuario)
       const nameArray = data.nome.split(' ')
       usuario.first_name = nameArray[0]
       usuario.last_name = nameArray[1]
@@ -123,16 +111,13 @@ export default {
           this.perPage = response.data.meta.per_page
           this.total = response.data.meta.total
           this.totalPages = response.data.meta.last_page
-        }).catch((error) => {
-          console.log(error)
         })
     },
     deletar (id) {
       this.deletarUsuario(id)
         .then((response) => {
           this.usuarios = this.usuarios.filter((usuario) => usuario.id_hash !== id)
-        }
-        )
+        })
     }
   },
 
