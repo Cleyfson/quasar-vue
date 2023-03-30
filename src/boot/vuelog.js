@@ -45,7 +45,7 @@ const registraLogApi = function (formLog) {
   axios({
     method: 'post',
     url: `${process.env.API}/logApi`,
-    data: { msg: { url: url, login: LoginLog(), error: formLog, response: formLog?.response } }
+    data: { msg: { url, login: LoginLog(), error: formLog, response: formLog?.response } }
   }).then((response) => {
     console.log('Log registrado Api')
   }).catch((error) => {
@@ -73,4 +73,4 @@ axios.interceptors.response.use(
   (error) => {
     registraLogApi(error)
     return Promise.reject(error)
-})
+  })
