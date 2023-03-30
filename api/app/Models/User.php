@@ -18,7 +18,8 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'first_name',
         'last_name',
-        'avatar'
+        'avatar',
+        'role'
     ];
 
     protected $appends = [
