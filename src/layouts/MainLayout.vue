@@ -9,7 +9,8 @@
         <q-btn flat
                color="white"
                label="Cria novo usuario"
-               @click="criarUsuario()" />
+               @click="criarUsuario()"
+               v-show="role === 2"/>
       </template>
     </q-banner>
     <q-dialog v-model="opened">
@@ -39,7 +40,7 @@
 <script>
 import FormUser from 'src/components/FormUser.vue'
 import UserCard from 'src/components/UserCard.vue'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'MainLayout',
@@ -57,6 +58,10 @@ export default {
       },
       opened: null
     }
+  },
+
+  computed: {
+    ...mapState('usuarios', { role: state => state.usuario.role })
   },
 
   components: {

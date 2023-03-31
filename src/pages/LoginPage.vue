@@ -45,7 +45,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-import axios from 'axios'
 
 export default {
   name: 'LoginPage',
@@ -60,10 +59,7 @@ export default {
   methods: {
     ...mapActions('usuarios', ['login']),
     userLogin () {
-      axios.post('http://localhost:8000/api/login', this.form)
-        .then((response) => {
-          this.login(response)
-        })
+      this.login(this.form)
     }
   }
 }
