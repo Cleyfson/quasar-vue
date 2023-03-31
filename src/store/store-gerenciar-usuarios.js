@@ -30,6 +30,21 @@ const actions = {
       this.$reuso.hideLoading()
     }
   },
+  async logout (context) {
+    try {
+      this.$reuso.showLoading()
+      const token = context.rootState.usuarios.token
+      const response = await axios.get('http://localhost:8000/api/v1/logout', { headers: { Authorization: 'Bearer ' + token } })
+      context.commit('SET_TOKEN', null)
+      this.$router.push({ name: 'Login' })
+      console.log(this.$reuso)
+      return response
+    } catch (error) {
+      this.$reuso.mensagemErro('Erro ao deslogar usuario', error)
+    } finally {
+      this.$reuso.hideLoading()
+    }
+  },
   async carregaPagina (context, pg = 1) {
     try {
       this.$reuso.showLoading()
@@ -80,7 +95,6 @@ const actions = {
   },
   async deletarUsuario (context, id) {
     try {
-      console.log(id)
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
       const response = await axios.delete(`http://localhost:8000/api/v1/users/${id}`, { headers: { Authorization: 'Bearer ' + token } })
@@ -90,10 +104,6 @@ const actions = {
     } finally {
       this.$reuso.hideLoading()
     }
-  },
-  logout (context) {
-    context.commit('SET_TOKEN', null)
-    this.$router.push({ name: 'Login' })
   }
 }
 const getters = {

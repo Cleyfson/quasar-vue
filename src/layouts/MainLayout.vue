@@ -10,7 +10,7 @@
                color="white"
                label="Cria novo usuario"
                @click="criarUsuario()"
-               v-show="role === 2"/>
+               v-show="role === 3"/>
       </template>
     </q-banner>
     <q-dialog v-model="opened">

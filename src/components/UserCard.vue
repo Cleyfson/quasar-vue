@@ -22,10 +22,13 @@
       </div>
       <q-card-section class="self-center">
         <span class="material-icons md-24 q-px-xs"
+              v-show="(user.id_hash === usuario.id_hash) && user.role === 2 || user.role === 3"
               @click="editar(usuario.id_hash)"> edit </span>
         <span class="material-icons md-24 q-px-xs"
+              v-show="user.id_hash === usuario.id_hash && user.role === 2  || user.role === 3"
               @click="deletar(usuario.id_hash)"> delete </span>
         <span class="material-icons md-24 q-px-xs"
+              v-show="user.role === 2 || user.role === 3"
               @click="detalhes(usuario.id_hash)"> visibility </span>
       </q-card-section>
     </q-card>
@@ -33,7 +36,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'UserCard',
@@ -43,6 +46,10 @@ export default {
     deletar: Function,
     fillForm: Function,
     usuarios: Array
+  },
+
+  computed: {
+    ...mapState('usuarios', { user: state => state.usuario })
   },
 
   methods: {
