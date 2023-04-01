@@ -1,8 +1,8 @@
 <template>
-  <q-layout view="hHr LpR lFf"
-            class="flex flex-center bg-cyan-7">
-    <q-card v-if="user"
-            class="my-card"
+  <q-layout v-if="user"
+            view="hHr LpR lFf"
+            class="flex flex-center bg-cyan-7 column q-gutter-md q-py-md">
+    <q-card class="my-card"
             style="border: 1px solid black; max-width: 25rem;">
       <q-img width="100%"
              :src="user.avatar"></q-img>
@@ -33,35 +33,123 @@
                label="voltar" />
       </q-card-section>
     </q-card>
-    <div v-else>
-      Carregando...
-    </div>
+    <q-card v-for="endereco in enderecos"
+            :key="endereco.id">
+      <q-card-section class="q-pt-none">
+        <div class="text-subtitle2">
+          Logadrouro: {{ endereco.rua }}
+        </div>
+        <div class="text-subtitle2">
+          Cidade: {{ endereco.cidade }}
+        </div>
+        <div class="text-subtitle2">
+          Estado: {{ endereco.estado }}
+        </div>
+        <div class="text-subtitle2">
+          Bairro: {{ endereco.cep }}
+        </div>
+      </q-card-section>
+    </q-card>
+    <q-btn @click="showModal"
+           size="22px"
+           class="q-px-xl q-py-xs"
+           color="purple"
+           label="Adicionar Endereco" />
   </q-layout>
+  <q-dialog v-model="opened">
+    <form-address :form="form"
+                  :cep="cep"
+                  @getCep="getCep"
+                  @submit="submit">
+    </form-address>
+  </q-dialog>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import FormAddress from 'src/components/FormAddress.vue'
 
 export default {
   name: 'UserPage',
   data () {
     return {
-      user: null
+      enderecos: null,
+      user: null,
+      form: {
+        rua: null,
+        cidade: null,
+        estado: null,
+        bairro: null,
+        cep: null,
+        user_id: this.$route.params.id
+      },
+      opened: null
     }
+  },
+  components: {
+    FormAddress
   },
   methods: {
     ...mapActions('usuarios', ['buscaUsuario']),
+    ...mapActions('enderecos', ['carregaEnderecos', 'criarEndereco']),
     async editar (id) {
       const response = await this.buscaUsuario(id)
       this.user = await response.data
+      this.getEnderecos(this.user.id_hash)
     },
     voltar () {
       this.$router.go(-1)
+    },
+    buscaCep (cep) {
+      console.log(cep)
+      if (cep.length === 8) {
+        const url = 'https://viacep.com.br/ws/' + cep + '/json/'
+        this.$axios.get(`${url}`)
+          .then((response) => {
+            const retorno = response.data
+            if (!retorno.cep) {
+              this.mensagemErro('Erro ao buscar o cep, informe seu endereço manualmente')
+              return
+            }
+            this.form.rua = retorno.logradouro
+            this.form.cidade = retorno.localidade
+            this.form.estado = retorno.uf
+            this.form.bairro = retorno.bairro
+            this.form.cep = cep
+          })
+      }
+    },
+    showModal: function () {
+      if (this.opened === true) {
+        (this.opened = false)
+      } else {
+        (this.opened = true)
+      }
+    },
+    async getUsuario (id) {
+      const response = await this.buscaUsuario(id)
+      this.user = await response.data
+    },
+    async getEnderecos (idHash) {
+      this.carregaEnderecos(idHash)
+        .then((response) => {
+          this.enderecos = response.data.data
+        })
+    },
+    getCep (data) {
+      this.buscaCep(data)
+    },
+    async submit () {
+      this.criarEndereco(this.form)
+      this.editar(this.$route.params.id)
+      this.showModal()
     }
   },
 
   mounted () {
+    const id = this.$route.params.id
     this.editar(this.$route.params.id)
+    this.getUsuario(id)
   }
 
 }
