@@ -38,7 +38,6 @@ const actions = {
       const response = await axios.get(`${process.env.API}logout`, { headers: { Authorization: 'Bearer ' + token } })
       context.commit('SET_TOKEN', null)
       this.$router.push({ name: 'Login' })
-      console.log(this.$reuso)
       return response
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao deslogar usuario', error)
@@ -47,7 +46,6 @@ const actions = {
     }
   },
   async carregaPagina (context, pg = 1) {
-    console.log(util)
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token

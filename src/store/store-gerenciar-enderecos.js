@@ -20,7 +20,6 @@ const actions = {
     }
   },
   async criarEndereco (context, form) {
-    console.log(form)
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token

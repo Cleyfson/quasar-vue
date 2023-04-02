@@ -59,7 +59,6 @@ export default {
     ...mapActions('usuarios', ['carregaPagina', 'deletarUsuario', 'logout']),
 
     voltar (pagina) {
-      console.log(this)
       const previousPage = (pagina > 1) ? (pagina - 1) : pagina
       this.$router.push({ path: `/${previousPage}` })
       this.getUsuarios(previousPage)
