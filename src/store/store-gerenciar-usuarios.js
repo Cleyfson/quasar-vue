@@ -1,5 +1,4 @@
 import axios from 'axios'
-import util from '../boot/vuelog'
 
 const state = {
   usuario: null,
