@@ -44,7 +44,7 @@ const registraLogApi = function (formLog) {
   const url = window.location.href
   axios({
     method: 'post',
-    url: `${process.env.API}/logApi`,
+    url: `${process.env.API}logApi`,
     data: { msg: { url, login: LoginLog(), error: formLog, response: formLog?.response } }
   }).then((response) => {
     console.log('Log registrado Api')

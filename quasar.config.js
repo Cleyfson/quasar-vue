@@ -27,7 +27,8 @@ module.exports = configure(function (ctx) {
       'persist-vuex',
       'axios',
       'acl',
-      'reuso'
+      'reuso',
+      'vuelog'
     ],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
@@ -52,7 +53,13 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-
+      env: ctx.dev
+        ? {
+            API: 'http://localhost:8000/api/v1/'
+          }
+        : {
+            API: 'http://localhost:8000/api/v1/'
+          },
       // transpile: false,
       // publicPath: '/',
 

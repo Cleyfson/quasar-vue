@@ -1,4 +1,5 @@
 import axios from 'axios'
+import util from '../boot/vuelog'
 
 const state = {
   usuario: null,
@@ -19,7 +20,7 @@ const actions = {
   async login (context, payload) {
     try {
       this.$reuso.showLoading()
-      const response = await axios.post('http://localhost:8000/api/v1/login', payload)
+      const response = await axios.post(`${process.env.API}login`, payload)
       context.commit('SET_USUARIO', response.data[0])
       context.commit('SET_TOKEN', response.data.access_token)
       this.$router.push('listagem-usuarios')
@@ -34,7 +35,7 @@ const actions = {
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
-      const response = await axios.get('http://localhost:8000/api/v1/logout', { headers: { Authorization: 'Bearer ' + token } })
+      const response = await axios.get(`${process.env.API}logout`, { headers: { Authorization: 'Bearer ' + token } })
       context.commit('SET_TOKEN', null)
       this.$router.push({ name: 'Login' })
       console.log(this.$reuso)
@@ -46,10 +47,11 @@ const actions = {
     }
   },
   async carregaPagina (context, pg = 1) {
+    console.log(util)
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
-      const response = await axios.get(`http://localhost:8000/api/v1/users?page=${pg}`, { headers: { Authorization: 'Bearer ' + token } })
+      const response = await axios.get(`${process.env.API}users?page=${pg}`, { headers: { Authorization: 'Bearer ' + token } })
       return response
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao carregar lista de usuarios', error)
@@ -61,7 +63,7 @@ const actions = {
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
-      const response = await axios.get(`http://localhost:8000/api/v1/users/${id}`, { headers: { Authorization: 'Bearer ' + token } })
+      const response = await axios.get(`${process.env.API}users/${id}`, { headers: { Authorization: 'Bearer ' + token } })
       return response
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao carregar dados do usuarios', error)
@@ -73,7 +75,7 @@ const actions = {
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
-      const response = await axios.post('http://localhost:8000/api/v1/users/', form, { headers: { Authorization: 'Bearer ' + token } })
+      const response = await axios.post(`${process.env.API}users/`, form, { headers: { Authorization: 'Bearer ' + token } })
       return response.data
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao criar usuario', error)
@@ -85,7 +87,7 @@ const actions = {
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
-      const response = await axios.put(`http://localhost:8000/api/v1/users/${form.id}`, form, { headers: { Authorization: 'Bearer ' + token } })
+      const response = await axios.put(`${process.env.API}users/${form.id}`, form, { headers: { Authorization: 'Bearer ' + token } })
       return response.data
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao alterar usuario', error)
@@ -97,7 +99,7 @@ const actions = {
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
-      const response = await axios.delete(`http://localhost:8000/api/v1/users/${id}`, { headers: { Authorization: 'Bearer ' + token } })
+      const response = await axios.delete(`${process.env.API}users/${id}`, { headers: { Authorization: 'Bearer ' + token } })
       return response.data
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao deletar usuario', error)

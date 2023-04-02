@@ -1,52 +1,24 @@
 <template>
   <q-card class="q-pa-md">
-    <q-form @reset="onReset"
-            @submit="onSubmit"
-            class="q-gutter-md">
+    <q-form @reset="onReset" @submit="onSubmit" class="q-gutter-md">
       <q-card-section>
         <div class="text-h6">Adicione novo endereço</div>
         <div class="text-subtitle1">Preencha o seguinte formulário para adicionar um novo endereço</div>
       </q-card-section>
       <div>CEP </div>
-      <q-input filled
-               v-model="cep"
-               label="CEP *" />
+      <q-input  filled v-model="cep" label="CEP *" />
       <div>Logradouro </div>
-      <q-input filled
-               v-model="forms.logradouro"
-               label="Logradouro *"
-               :disable="true"
-               :key="this.key" />
+      <q-input filled v-model="forms.logradouro" label="Logradouro *" :disable="true" />
       <div>Cidade </div>
-      <q-input filled
-               v-model="forms.cidade"
-               label="Cidade *"
-               :disable="true"
-               :key="this.key" />
+      <q-input filled v-model="forms.cidade" label="Cidade *" :disable="true" />
       <div>Estado </div>
-      <q-input filled
-               v-model="forms.estado"
-               label="Estado *"
-               :disable="true"
-               :key="this.key" />
+      <q-input filled v-model="forms.estado" label="Estado *" :disable="true" />
       <div>Bairro </div>
-      <q-input filled
-               v-model="forms.bairro"
-               label="Bairro *"
-               :disable="true"
-               :key="this.key" />
+      <q-input filled v-model="forms.bairro" label="Bairro *" :disable="true" />
       <div>
-        <q-btn label="buscar"
-               @click="onBuscar"
-               color="primary" />
-        <q-btn label="Submit"
-               type="submit"
-               color="primary" />
-        <q-btn label="Reset"
-               type="reset"
-               color="primary"
-               flat
-               class="q-ml-sm" />
+        <q-btn label="buscar" @click="onBuscar" color="primary" />
+        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>
   </q-card>
@@ -60,13 +32,12 @@ export default {
   data () {
     return {
       forms: {
-        logradouro: this.form.rua,
-        cidade: this.form.cidade,
-        estado: this.form.estado,
-        bairro: this.form.bairro
+        logradouro: null,
+        cidade: null,
+        estado: null,
+        bairro: null
       },
-      cep: null,
-      key: 1
+      cep: null
     }
   },
 

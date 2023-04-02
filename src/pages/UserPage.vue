@@ -1,11 +1,7 @@
 <template>
-  <q-layout v-if="user"
-            view="hHr LpR lFf"
-            class="flex flex-center bg-cyan-7 column q-gutter-md q-py-md">
-    <q-card class="my-card"
-            style="border: 1px solid black; max-width: 25rem;">
-      <q-img width="100%"
-             :src="user.avatar"></q-img>
+  <q-layout v-if="user" view="hHr LpR lFf" class="flex flex-center bg-cyan-7 column q-gutter-md q-py-md">
+    <q-card class="my-card" style="border: 1px solid black; max-width: 25rem;">
+      <q-img width="100%" :src="user.avatar" />
       <q-card-section>
         <div class="row no-wrap items-center">
           <div class="col text-h6 ellipsis">
@@ -26,16 +22,11 @@
       <q-separator />
 
       <q-card-section class="flex flex-center">
-        <q-btn @click="voltar"
-               size="22px"
-               class="q-px-xl q-py-xs"
-               color="purple"
-               label="voltar" />
+        <q-btn @click="voltar" size="22px" class="q-px-xl q-py-xs" color="purple" label="voltar" />
       </q-card-section>
     </q-card>
-    <q-card v-for="endereco in enderecos"
-            :key="endereco.id">
-      <q-card-section class="q-pt-none">
+    <q-card v-for="endereco in enderecos" :key="endereco.id">
+      <q-card-section>
         <div class="text-subtitle2">
           Logadrouro: {{ endereco.rua }}
         </div>
@@ -50,18 +41,10 @@
         </div>
       </q-card-section>
     </q-card>
-    <q-btn @click="showModal"
-           size="22px"
-           class="q-px-xl q-py-xs"
-           color="purple"
-           label="Adicionar Endereco" />
+    <q-btn @click="showModal" size="22px" class="q-px-xl q-py-xs" color="purple" label="Adicionar Endereco" />
   </q-layout>
   <q-dialog v-model="opened">
-    <form-address :form="form"
-                  :cep="cep"
-                  @getCep="getCep"
-                  @submit="submit">
-    </form-address>
+    <form-address :form="form" @getCep="getCep" @submit="submit"></form-address>
   </q-dialog>
 </template>
 
@@ -95,13 +78,34 @@ export default {
     async editar (id) {
       const response = await this.buscaUsuario(id)
       this.user = await response.data
-      this.getEnderecos(this.user.id_hash)
+    },
+    async getUsuario (id) {
+      const response = await this.buscaUsuario(id)
+      this.user = response.data
+    },
+    async getEnderecos (idHash) {
+      const response = await this.carregaEnderecos(idHash)
+      this.enderecos = response.data.data
+    },
+    showModal: function () {
+      if (this.opened === true) {
+        (this.opened = false)
+      } else {
+        (this.opened = true)
+      }
+    },
+    getCep (data) {
+      this.buscaCep(data)
+    },
+    async submit () {
+      this.criarEndereco(this.form)
+      this.editar(this.$route.params.id)
+      this.showModal()
     },
     voltar () {
       this.$router.go(-1)
     },
     buscaCep (cep) {
-      console.log(cep)
       if (cep.length === 8) {
         const url = 'https://viacep.com.br/ws/' + cep + '/json/'
         this.$axios.get(`${url}`)
@@ -118,38 +122,13 @@ export default {
             this.form.cep = cep
           })
       }
-    },
-    showModal: function () {
-      if (this.opened === true) {
-        (this.opened = false)
-      } else {
-        (this.opened = true)
-      }
-    },
-    async getUsuario (id) {
-      const response = await this.buscaUsuario(id)
-      this.user = await response.data
-    },
-    async getEnderecos (idHash) {
-      this.carregaEnderecos(idHash)
-        .then((response) => {
-          this.enderecos = response.data.data
-        })
-    },
-    getCep (data) {
-      this.buscaCep(data)
-    },
-    async submit () {
-      this.criarEndereco(this.form)
-      this.editar(this.$route.params.id)
-      this.showModal()
     }
   },
 
   mounted () {
     const id = this.$route.params.id
-    this.editar(this.$route.params.id)
     this.getUsuario(id)
+    this.getEnderecos(id)
   }
 
 }

@@ -11,7 +11,7 @@ const actions = {
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
-      const response = await axios.get(`http://localhost:8000/api/v1/address?user=${id}`, { headers: { Authorization: 'Bearer ' + token } })
+      const response = await axios.get(`${process.env.API}address?user=${id}`, { headers: { Authorization: 'Bearer ' + token } })
       return response
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao carregar endereços do usuarios', error)
@@ -24,7 +24,7 @@ const actions = {
     try {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
-      const response = await axios.post('http://localhost:8000/api/v1/address/', form, { headers: { Authorization: 'Bearer ' + token } })
+      const response = await axios.post(`${process.env.API}address/`, form, { headers: { Authorization: 'Bearer ' + token } })
       return response.data
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao criar endereço', error)
