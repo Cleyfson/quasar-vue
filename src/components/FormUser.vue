@@ -5,10 +5,12 @@
         <div class="text-h6">Crie um novo usuario</div>
         <div class="text-subtitle1">Preencha o seguinte formulário para criar um novo usuario.</div>
       </q-card-section>
-      <div>Nome do usuário </div>
+      <div>Email </div>
+      <q-input filled v-model="form.email" label="Email *" />
+      <div>Nome </div>
       <q-input filled v-model="form.nome" label="Nome *" />
-
-      <q-select v-model="form.funcao" :options="funcoes" label="funções" />
+      <div>Password </div>
+      <q-input filled v-model="form.password" label="Password *" />
 
       <div>
         <q-btn label="Submit" type="submit" color="primary" />
@@ -27,23 +29,17 @@ export default {
 
   data () {
     return {
-      funcoes: [
-        'Desenvolvedor',
-        'Gerente de Projetos',
-        'Tech Lead',
-        'UI/UX Designer'
-      ],
       form: {
-        id: this.id,
-        nome: this.nome,
-        funcao: ''
+        id: this.newForm.id,
+        nome: null,
+        email: null,
+        password: null
       }
     }
   },
 
   props: {
-    id: String,
-    nome: String,
+    newForm: Object,
     showModal: Function
   },
 
@@ -84,9 +80,9 @@ export default {
     onReset () {
       this.form.id = null
       this.form.nome = null
-      this.form.funcao = null
+      this.form.email = null
+      this.form.password = null
     }
   }
-
 }
 </script>

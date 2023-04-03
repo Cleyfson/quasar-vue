@@ -17,13 +17,54 @@ class AddressController extends Controller
         $this->reuso = $reuso;
     }
 
-    public function index(Request $request) {
+     /**
+     *
+     * get list with adress(es).
+     *
+     * @OA\Get(
+     *     path="/address",
+     *     tags={"address"},
+     *     summary="Returns a list of adress(es) related to an user",
+     *     description="Returns a map of status codes to quantities",
+     *     operationId="getAddresses",
+     *     @OA\Parameter(
+     *         name="userHashID",
+     *         in="path",
+     *         description="ID of the users that owns the adress(es)",
+     *         required=true
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation",
+     *     )
+     * )
+     */
+    public function getAddresses(Request $request) {
         $id = $this->reuso->descriptografarId($request->user);
         $addresses = Address::where('user_id', $id)->get();
         return UserResource::collection($addresses);
     }
 
-    public function create(Request $request) {
+    /**
+     * Add a new address.
+     *
+     * @OA\Post(
+     *     path="/address/",
+     *     tags={"address"},
+     *     operationId="createAddress",
+     *     @OA\Parameter(
+     *         name="Adress",
+     *         in="path",
+     *         description="attributes related to an user adress",
+     *         required=true
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input"
+     *     )
+     * )
+     */
+    public function createAddress(Request $request) {
         $id = $this->reuso->descriptografarId($request->user_id);
         $address = new Address;
         $address->rua = $request->rua;

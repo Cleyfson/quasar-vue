@@ -1,7 +1,7 @@
 <template>
   <q-layout>
     <q-page-container>
-      <q-page class="bg-light-green window-height window-width row justify-center items-center">
+      <q-page class="window-height window-width row justify-center items-center">
         <div class="column">
           <div class="row">
             <h5 class="text-h5 text-white q-my-md">Login</h5>
@@ -12,7 +12,7 @@
                 <q-form @submit.stop.prevent="userLogin" class="q-gutter-md">
                   <q-input square filled clearable v-model="form.email" type="email" label="email" />
                   <q-input square filled clearable v-model="form.password" type="password" label="password" />
-                  <q-btn unelevated color="light-green-7" size="lg" class="full-width" label="Login" type="submit" />
+                  <q-btn unelevated color="primary" size="lg" class="full-width" label="Login" type="submit" />
                 </q-form>
               </q-card-section>
               <q-card-section class="text-center q-pa-none">

@@ -9,7 +9,7 @@
     </q-banner>
 
     <q-dialog v-model="opened">
-      <form-user :showModal="showModal" :id="id" :nome="nome" @altereUsuario="altereUsuario">
+      <form-user :showModal="showModal" :newForm="this.usuario" @altereUsuario="altereUsuario">
       </form-user>
     </q-dialog>
 
@@ -40,7 +40,9 @@ export default {
       total: null,
       usuario: {
         id: null,
-        nome: null
+        nome: null,
+        email: null,
+        password: null
       },
       opened: null
     }
@@ -84,8 +86,10 @@ export default {
       }
     },
     getData (data) {
-      this.id = data.id_hash
-      this.nome = `${data.first_name} ${data.last_name}`
+      this.usuario.id = data.id_hash
+      this.usuario.nome = `${data.first_name} ${data.last_name}`
+      this.usuario.email = data.email
+      this.usuario.password = data.password
       this.showModal()
     },
     altereUsuario (data) {

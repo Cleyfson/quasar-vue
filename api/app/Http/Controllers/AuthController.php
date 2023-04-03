@@ -10,6 +10,32 @@ use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
+    /**
+     *
+     * give the user login acess.
+     *
+     * @OA\Get(
+     *     path="/login",
+     *     tags={"auth"},
+     *     summary="Returns user details and authentication",
+     *     description="Returns a map of status codes to quantities",
+     *     operationId="login",
+     *     @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         description="attributes related to an user",
+     *         required=true
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful login",
+     *     ),
+     *      @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *     )
+     * )
+     */
     public function login (Request $request) {
 
         $credentials = [
@@ -25,6 +51,20 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    /**
+     *
+     * give the user logout acess.
+     *
+     * @OA\Get(
+     *     path="/logout",
+     *     tags={"auth"},
+     *     operationId="logout",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successfully logged out",
+     *     ),
+     * )
+     */
     public function logout()
     {
         auth()->logout();

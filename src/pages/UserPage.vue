@@ -1,5 +1,5 @@
 <template>
-  <q-layout v-if="user" view="hHr LpR lFf" class="flex flex-center bg-cyan-7 column q-gutter-md q-py-md">
+  <q-layout v-if="user" view="hHr LpR lFf" class="flex flex-center column q-gutter-md q-py-md">
     <q-card class="my-card" style="border: 1px solid black; max-width: 25rem;">
       <q-img width="100%" :src="user.avatar" />
       <q-card-section>
@@ -22,7 +22,7 @@
       <q-separator />
 
       <q-card-section class="flex flex-center">
-        <q-btn @click="voltar" size="22px" class="q-px-xl q-py-xs" color="purple" label="voltar" />
+        <q-btn @click="voltar" size="22px" class="q-px-xl q-py-xs" color="primary" label="voltar" />
       </q-card-section>
     </q-card>
     <q-card v-for="endereco in enderecos" :key="endereco.id">
@@ -41,7 +41,7 @@
         </div>
       </q-card-section>
     </q-card>
-    <q-btn @click="showModal" size="22px" class="q-px-xl q-py-xs" color="purple" label="Adicionar Endereco" />
+    <q-btn @click="showModal" size="22px" class="q-px-xl q-py-xs" color="primary" label="Adicionar Endereco" />
   </q-layout>
   <q-dialog v-model="opened">
     <form-address :form="form" @getCep="getCep" @submit="submit"></form-address>

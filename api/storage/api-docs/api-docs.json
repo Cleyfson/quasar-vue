@@ -1,0 +1,222 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "L5 OpenApi",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "darius@matulionis.lt"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0",
+        "x-logo": {
+            "url": "https://via.placeholder.com/190x90.png?text=L5-Swagger"
+        }
+    },
+    "paths": {
+        "/address": {
+            "get": {
+                "tags": [
+                    "address"
+                ],
+                "summary": "Returns a list of adress(es) related to an user",
+                "description": "Returns a map of status codes to quantities",
+                "operationId": "getAddresses",
+                "parameters": [
+                    {
+                        "name": "userHashID",
+                        "in": "path",
+                        "description": "ID of the users that owns the adress(es)",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/address/": {
+            "post": {
+                "tags": [
+                    "address"
+                ],
+                "summary": "Add a new address.",
+                "operationId": "createAddress",
+                "parameters": [
+                    {
+                        "name": "Adress",
+                        "in": "path",
+                        "description": "attributes related to an user adress",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Returns user details and authentication",
+                "description": "Returns a map of status codes to quantities",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "attributes related to an user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful login"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "give the user logout acess.",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Successfully logged out"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Returns a list of user(es)",
+                "description": "Returns a map of status codes to quantities",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Returns a user",
+                "description": "Returns a map of status codes to quantities",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "userHashID",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "422": {
+                        "description": "Desculpe, Nao foi possivel encontrar usuario"
+                    }
+                }
+            }
+        },
+        "/users/": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "create a user",
+                "description": "Returns a map of status codes to quantities",
+                "operationId": "create",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "attributes related to an user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "422": {
+                        "description": "Erro ao criar novo usuario"
+                    }
+                }
+            }
+        },
+        "users/{id}": {
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "upadate a user",
+                "description": "Returns a map of status codes to quantities",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "attributes related to an user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "422": {
+                        "description": "Erro ao criar novo usuario"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "delete a user",
+                "description": "Returns a map of status codes to quantities",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "userHashId",
+                        "in": "path",
+                        "description": "user hash id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "422": {
+                        "description": "Desculpe, o usuario não pode ser excluido."
+                    }
+                }
+            }
+        }
+    }
+}

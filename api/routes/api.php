@@ -28,7 +28,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('users/{id}', 'App\Http\Controllers\UserController@update')->middleware('isAdminOrSelf');
         Route::delete('users/{id}', 'App\Http\Controllers\UserController@destroy')->middleware('isAdminOrSelf');
         //Endereços
-        Route::get('address', 'App\Http\Controllers\AddressController@index');
-        Route::post('address/', 'App\Http\Controllers\AddressController@create');
+        Route::get('address', 'App\Http\Controllers\AddressController@getAddresses');
+        Route::post('address/', 'App\Http\Controllers\AddressController@createAddress');
     });
 });
