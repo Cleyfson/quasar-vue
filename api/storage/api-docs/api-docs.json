@@ -34,7 +34,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "operação realizado com sucesso"
                     }
                 }
             }
@@ -46,37 +46,75 @@
                 ],
                 "summary": "Add a new address.",
                 "operationId": "createAddress",
-                "parameters": [
-                    {
-                        "name": "Adress",
-                        "in": "path",
-                        "description": "attributes related to an user adress",
-                        "required": true
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "rua",
+                                    "cidade",
+                                    "estado",
+                                    "cep",
+                                    "user_id"
+                                ],
+                                "properties": {
+                                    "rua": {
+                                        "type": "text"
+                                    },
+                                    "cidade": {
+                                        "type": "text"
+                                    },
+                                    "estado": {
+                                        "type": "password"
+                                    },
+                                    "cep": {
+                                        "type": "text"
+                                    },
+                                    "user_id": {
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
-                    "405": {
-                        "description": "Invalid input"
+                    "422": {
+                        "description": "Erro ao criar novo endereço"
                     }
                 }
             }
         },
-        "/login": {
-            "get": {
+        "/api/v1/login": {
+            "post": {
                 "tags": [
                     "auth"
                 ],
                 "summary": "Returns user details and authentication",
                 "description": "Returns a map of status codes to quantities",
                 "operationId": "login",
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "path",
-                        "description": "attributes related to an user",
-                        "required": true
+                "requestBody": {
+                    "content": {
+                        "form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "text"
+                                    },
+                                    "password": {
+                                        "type": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "successful login"
@@ -101,7 +139,7 @@
                 }
             }
         },
-        "/users": {
+        "/api/v1/users": {
             "get": {
                 "tags": [
                     "users"
@@ -113,7 +151,12 @@
                     "200": {
                         "description": "operação realizado com sucesso"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/users/{id}": {
@@ -182,7 +225,12 @@
                     "422": {
                         "description": "Erro ao criar novo usuario"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "users/{id}": {
@@ -250,6 +298,17 @@
                         "description": "Desculpe, o usuario não pode ser excluido."
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearer_token": {
+                "type": "http",
+                "scheme": "bearer",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
             }
         }
     }

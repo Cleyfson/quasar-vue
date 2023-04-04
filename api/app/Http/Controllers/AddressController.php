@@ -35,7 +35,7 @@ class AddressController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="successful operation",
+     *         description="operação realizado com sucesso",
      *     )
      * )
      */
@@ -52,15 +52,23 @@ class AddressController extends Controller
      *     path="/address/",
      *     tags={"address"},
      *     operationId="createAddress",
-     *     @OA\Parameter(
-     *         name="Adress",
-     *         in="path",
-     *         description="attributes related to an user adress",
-     *         required=true
-     *     ),
+     *     @OA\RequestBody(
+     *          @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                type="object",
+     *                required={"rua", "cidade", "estado", "cep", "user_id"},
+     *                @OA\Property(property="rua", type="text"),
+     *                @OA\Property(property="cidade", type="text"),
+     *                @OA\Property(property="estado", type="password"),
+     *                @OA\Property(property="cep", type="text"),
+     *                @OA\Property(property="user_id", type="text"),
+     *             ),
+     *         ),
+     *      ),
      *     @OA\Response(
-     *         response=405,
-     *         description="Invalid input"
+     *         response=422,
+     *         description="Erro ao criar novo endereço",
      *     )
      * )
      */
@@ -76,7 +84,7 @@ class AddressController extends Controller
         if(!$address->save()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erro ao criar novo usuario'
+                'message' => 'Erro ao criar novo endereço'
             ], 422);
         };
 

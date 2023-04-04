@@ -26,7 +26,7 @@ class UserController extends Controller
      * get list with user(es).
      *
      * @OA\Get(
-     *     path="/users",
+     *     path="/api/v1/users",
      *     tags={"users"},
      *     summary="Returns a list of user(es)",
      *     description="Returns a map of status codes to quantities",
@@ -34,7 +34,8 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="operação realizado com sucesso",
-     *     )
+     *     ),
+     *     security={{"bearer_token":{}}}
      * )
      */
     public function index() {
@@ -108,7 +109,8 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=422,
      *         description="Erro ao criar novo usuario",
-     *     )
+     *     ),
+     *     security={{"bearer_token":{}}}
      * )
      */
     public function create(userFormRequest $request) {

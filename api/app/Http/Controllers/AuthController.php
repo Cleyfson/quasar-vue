@@ -14,18 +14,23 @@ class AuthController extends Controller
      *
      * give the user login acess.
      *
-     * @OA\Get(
-     *     path="/login",
+     * @OA\Post(
+     *     path="/api/v1/login",
      *     tags={"auth"},
      *     summary="Returns user details and authentication",
      *     description="Returns a map of status codes to quantities",
      *     operationId="login",
-     *     @OA\Parameter(
-     *         name="user",
-     *         in="path",
-     *         description="attributes related to an user",
-     *         required=true
-     *     ),
+     *     @OA\RequestBody(
+     *          @OA\MediaType(
+     *             mediaType="form-data",
+     *             @OA\Schema(
+     *                type="object",
+     *                required={"email", "password"},
+     *                @OA\Property(property="email", type="text"),
+     *                @OA\Property(property="password", type="password"),
+     *             ),
+     *         ),
+     *      ),
      *     @OA\Response(
      *         response=200,
      *         description="successful login",
