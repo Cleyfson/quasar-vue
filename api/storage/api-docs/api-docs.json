@@ -111,7 +111,7 @@
                 "operationId": "index",
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "operação realizado com sucesso"
                     }
                 }
             }
@@ -134,7 +134,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "usuario encontrado com sucesso"
                     },
                     "422": {
                         "description": "Desculpe, Nao foi possivel encontrar usuario"
@@ -150,17 +150,34 @@
                 "summary": "create a user",
                 "description": "Returns a map of status codes to quantities",
                 "operationId": "create",
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "path",
-                        "description": "attributes related to an user",
-                        "required": true
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "full_name",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "text"
+                                    },
+                                    "full_name": {
+                                        "type": "text"
+                                    },
+                                    "password": {
+                                        "type": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "usuario criado com sucesso"
                     },
                     "422": {
                         "description": "Erro ao criar novo usuario"
@@ -176,17 +193,34 @@
                 "summary": "upadate a user",
                 "description": "Returns a map of status codes to quantities",
                 "operationId": "update",
-                "parameters": [
-                    {
-                        "name": "user",
-                        "in": "path",
-                        "description": "attributes related to an user",
-                        "required": true
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "full_name",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "text"
+                                    },
+                                    "full_name": {
+                                        "type": "text"
+                                    },
+                                    "password": {
+                                        "type": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "Usuario criado com sucesso"
                     },
                     "422": {
                         "description": "Erro ao criar novo usuario"
@@ -210,7 +244,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation"
+                        "description": "usuario deletado com sucesso"
                     },
                     "422": {
                         "description": "Desculpe, o usuario não pode ser excluido."

@@ -33,7 +33,7 @@ class UserController extends Controller
      *     operationId="index",
      *     @OA\Response(
      *         response=200,
-     *         description="successful operation",
+     *         description="operação realizado com sucesso",
      *     )
      * )
      */
@@ -54,13 +54,13 @@ class UserController extends Controller
      *     operationId="show",
      *     @OA\Parameter(
      *         name="userHashID",
-     *         in="path",
      *         description="ID of the user",
-     *         required=true
+     *         required=true,
+     *         in="path",
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="successful operation",
+     *         description="usuario encontrado com sucesso",
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -89,15 +89,21 @@ class UserController extends Controller
      *     summary="create a user",
      *     description="Returns a map of status codes to quantities",
      *     operationId="create",
-     *     @OA\Parameter(
-     *         name="user",
-     *         in="path",
-     *         description="attributes related to an user",
-     *         required=true
-     *     ),
+     *     @OA\RequestBody(
+     *          @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                type="object",
+     *                required={"email", "full_name", "password"},
+     *                @OA\Property(property="email", type="text"),
+     *                @OA\Property(property="full_name", type="text"),
+     *                @OA\Property(property="password", type="password"),
+     *             ),
+     *         ),
+     *      ),
      *     @OA\Response(
      *         response=200,
-     *         description="successful operation",
+     *         description="usuario criado com sucesso",
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -134,15 +140,21 @@ class UserController extends Controller
      *     summary="upadate a user",
      *     description="Returns a map of status codes to quantities",
      *     operationId="update",
-     *     @OA\Parameter(
-     *         name="user",
-     *         in="path",
-     *         description="attributes related to an user",
-     *         required=true
-     *     ),
+     *     @OA\RequestBody(
+     *          @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                type="object",
+     *                required={"email", "full_name", "password"},
+     *                @OA\Property(property="email", type="text"),
+     *                @OA\Property(property="full_name", type="text"),
+     *                @OA\Property(property="password", type="password"),
+     *             ),
+     *         ),
+     *      ),
      *     @OA\Response(
      *         response=200,
-     *         description="successful operation",
+     *         description="Usuario criado com sucesso",
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -163,6 +175,8 @@ class UserController extends Controller
         $names = explode(' ', $request->nome);
         $user->first_name = $names[0];
         $user->last_name = (isset($names[1]))  ? $names[1] : fake()->lastName();
+        $user->email = $request->email;
+        $user->password = $request->password;
         $user->update();
         return $user;
     }
@@ -185,7 +199,7 @@ class UserController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="successful operation",
+     *         description="usuario deletado com sucesso",
      *     ),
      *     @OA\Response(
      *         response=422,
