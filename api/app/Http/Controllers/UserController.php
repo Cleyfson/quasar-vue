@@ -113,7 +113,14 @@ class UserController extends Controller
      *     security={{"bearer_token":{}}}
      * )
      */
-    public function create(userFormRequest $request) {
+    public function create(userFormRequest $request, User $user) {
+
+        $request->validate([
+            'nome' => 'required',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id_hash,
+            'password' => 'required',
+        ]);
+
         $names = explode(' ', $request->nome);
         $user = new User;
         $user->email = $request->email;
