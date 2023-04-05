@@ -105,22 +105,24 @@ export default {
     voltar () {
       this.$router.go(-1)
     },
-    buscaCep (cep) {
+    async buscaCep (cep) {
       if (cep.length === 8) {
         const url = 'https://viacep.com.br/ws/' + cep + '/json/'
-        this.$axios.get(`${url}`)
-          .then((response) => {
-            const retorno = response.data
-            if (!retorno.cep) {
-              this.mensagemErro('Erro ao buscar o cep, informe seu endereço manualmente')
-              return
-            }
-            this.form.rua = retorno.logradouro
-            this.form.cidade = retorno.localidade
-            this.form.estado = retorno.uf
-            this.form.bairro = retorno.bairro
-            this.form.cep = cep
-          })
+        try {
+          const response = await this.$axios.get(`${url}`)
+          const retorno = response.data
+          if (!retorno.cep) {
+            this.mensagemErro('Erro ao buscar cep')
+            return
+          }
+          this.form.rua = retorno.logradouro
+          this.form.cidade = retorno.localidade
+          this.form.estado = retorno.uf
+          this.form.bairro = retorno.bairro
+          this.form.cep = cep
+        } catch (error) {
+          this.mensagemErro('Erro ao buscar endereço')
+        }
       }
     }
   },

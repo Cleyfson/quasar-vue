@@ -32,3 +32,23 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('address/', 'App\Http\Controllers\AddressController@createAddress');
     });
 });
+
+
+/*  buscaCep (cep) {
+      if (cep.length === 8) {
+        const url = 'https://viacep.com.br/ws/' + cep + '/json/'
+        try {
+          const response = this.$axios.get(`${url}`)
+          const retorno = response.data
+          if (!retorno.cep) {
+            this.mensagemWarning('Erro no cep')
+          }
+          this.form.rua = retorno.logradouro
+          this.form.cidade = retorno.localidade
+          this.form.estado = retorno.uf
+          this.form.bairro = retorno.bairro
+          this.form.cep = cep
+        } catch (error) {
+          this.mensagemErro('Erro ao buscar endereço', error)
+        }
+      }*/

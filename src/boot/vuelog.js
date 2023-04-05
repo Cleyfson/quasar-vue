@@ -13,7 +13,7 @@ const registraLogError = function (formLog) {
   }
   axios({
     method: 'post',
-    url: `${process.env.API}/logError`,
+    url: `${process.env.API}logError`,
     data: { msg: formLog }
   }).then((response) => {
     console.log('Log registrado Error')
@@ -28,7 +28,7 @@ const registraLogWarn = function (formLog) {
   }
   axios({
     method: 'post',
-    url: `${process.env.API}/logWarn`,
+    url: `${process.env.API}logWarn`,
     data: { msg: formLog }
   }).then((response) => {
     console.log('Log registrado Warn')
