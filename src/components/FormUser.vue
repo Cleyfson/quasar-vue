@@ -31,9 +31,9 @@ export default {
     return {
       form: {
         id: this.newForm.id,
-        nome: null,
-        email: null,
-        password: null
+        nome: this.newForm.nome,
+        email: this.newForm.email,
+        password: this.newForm.password
       }
     }
   },
@@ -57,7 +57,6 @@ export default {
         if (this.form.id === null) {
           this.criarUsuario(this.form)
             .then((response) => {
-              this.mensagemSucesso('Usuario criado com sucesso')
               this.showModal()
             }).catch((error) => {
               this.mensagemErro('Erro ao criar usuario', error)
@@ -66,7 +65,6 @@ export default {
           this.alterarUsuario(this.form)
             .then((response) => {
               this.$emit('altereUsuario', this.form)
-              this.mensagemSucesso('Usuario alterado com sucesso')
               this.showModal()
             }
             ).catch((error) => {

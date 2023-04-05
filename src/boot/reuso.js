@@ -9,7 +9,7 @@ export default function ({ Vue, app, store, router }) {
       this.objErros = ''
       this.msgErro = ''
       if (error !== '' && error.response.status !== 422) {
-        this.msgErro = `<br/> ${error.response.data.message} <br/> Caso persista entre em contato com o suporte (suporte@dti.ufmg.br). <br/> Status ${error.response.status} ${error.response.statusText}`
+        this.msgErro = `<br/> ${error.response.data.message} <br/> Caso persista entre em contato com o suporte. <br/> Status ${error.response.status} ${error.response.statusText}`
       } else if (error !== '' && error.response.status === 422) {
         this.msgErro = `<br/> ${error.response.data.message}`
       }
@@ -83,7 +83,7 @@ export default function ({ Vue, app, store, router }) {
         this.objErros = ''
         this.msgErro = ''
         if (error !== '' && error.response.status !== 422) {
-          this.msgErro = `<br/> ${error.response.data.message} <br/> Caso persista entre em contato com o suporte (suporte@dti.ufmg.br). <br/> Status ${error.response.status} ${error.response.statusText}`
+          this.msgErro = `<br/> ${error.response.data.message} <br/> Caso persista entre em contato com o suporte. <br/> Status ${error.response.status} ${error.response.statusText}`
         } else if (error !== '' && error.response.status === 422) {
           this.msgErro = `<br/> ${error.response.data.message}`
         }

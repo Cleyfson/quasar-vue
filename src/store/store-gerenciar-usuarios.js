@@ -73,6 +73,10 @@ const actions = {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
       const response = await axios.post(`${process.env.API}users/`, form, { headers: { Authorization: 'Bearer ' + token } })
+      console.log(response)
+      if (response.status === 201) {
+        this.$reuso.mensagemSucesso('Usuario criado com sucesso')
+      }
       return response.data
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao criar usuario', error)
@@ -85,6 +89,9 @@ const actions = {
       this.$reuso.showLoading()
       const token = context.rootState.usuarios.token
       const response = await axios.put(`${process.env.API}users/${form.id}`, form, { headers: { Authorization: 'Bearer ' + token } })
+      if (response.status === 200) {
+        this.$reuso.mensagemSucesso('Usuario alterado com sucesso')
+      }
       return response.data
     } catch (error) {
       this.$reuso.mensagemErro('Erro ao alterar usuario', error)

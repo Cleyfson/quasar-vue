@@ -17,7 +17,7 @@ class CheckIsAdminOrSelf
     public function handle($request, Closure $next)
     {
         $requestedUserId = $request->route()->parameter('id');
-        if( Auth::user()->role === 2 || Auth::user()->id_hash == $requestedUserId) {
+        if( Auth::user()->role === 3 || Auth::user()->id_hash == $requestedUserId) {
             return $next($request);
         }
         return response()->json(['error' => 'Unauthorized'], 403);
