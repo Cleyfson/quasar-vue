@@ -53,7 +53,7 @@ export default {
       }
     },
     onSubmit () {
-      if (this.form.nome !== null && this.form.funcao !== null) {
+      if (this.form.nome !== null) {
         if (this.form.id === null) {
           this.criarUsuario(this.form)
             .then((response) => {

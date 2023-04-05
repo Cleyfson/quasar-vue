@@ -86,7 +86,6 @@ export default {
       }
     },
     getData (data) {
-      console.log(data)
       this.usuario.id = data.id_hash
       this.usuario.nome = `${data.first_name} ${data.last_name}`
       this.usuario.email = data.email
