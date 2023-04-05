@@ -21,16 +21,14 @@ class AuthController extends Controller
      *     description="Returns a map of status codes to quantities",
      *     operationId="login",
      *     @OA\RequestBody(
-     *          @OA\MediaType(
-     *             mediaType="form-data",
-     *             @OA\Schema(
-     *                type="object",
-     *                required={"email", "password"},
-     *                @OA\Property(property="email", type="text"),
-     *                @OA\Property(property="password", type="password"),
-     *             ),
-     *         ),
-     *      ),
+     *       required=true,
+     *       description="Pass user details",
+     *       @OA\JsonContent(
+     *          required={"email" ,"password"},
+     *            @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *            @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+     *       ),
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="successful login",
@@ -61,13 +59,14 @@ class AuthController extends Controller
      * give the user logout acess.
      *
      * @OA\Get(
-     *     path="/logout",
+     *     path="/api/v1/logout",
      *     tags={"auth"},
      *     operationId="logout",
      *     @OA\Response(
      *         response=200,
      *         description="Successfully logged out",
      *     ),
+     *     security={{"bearer_token":{}}}
      * )
      */
     public function logout()

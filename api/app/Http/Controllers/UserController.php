@@ -33,6 +33,13 @@ class UserController extends Controller
      *     summary="Returns a list of user(es)",
      *     description="Returns a map of status codes to quantities",
      *     operationId="index",
+     *     @OA\Parameter(
+     *         name="page",
+     *         description="number of page pagination",
+     *         required=true,
+     *         in="query",
+     *         example="2"
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="operação realizado com sucesso",
@@ -60,6 +67,7 @@ class UserController extends Controller
      *         description="hashID of the user",
      *         required=true,
      *         in="path",
+     *         example="vZC7fX"
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -155,6 +163,7 @@ class UserController extends Controller
      *         description="hashID of the user",
      *         required=true,
      *         in="path",
+     *         example="vZC7fX"
      *     ),
      *     @OA\RequestBody(
      *       required=true,
@@ -210,7 +219,8 @@ class UserController extends Controller
      *         name="id",
      *         in="path",
      *         description="user hash id",
-     *         required=true
+     *         required=true,
+     *         example="vZC7fX"
      *     ),
      *     @OA\Response(
      *         response=200,

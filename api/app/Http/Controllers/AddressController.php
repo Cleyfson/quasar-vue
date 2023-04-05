@@ -17,26 +17,28 @@ class AddressController extends Controller
         $this->reuso = $reuso;
     }
 
-     /**
+    /**
      *
-     * get list with adress(es).
+     * get list with user(es).
      *
      * @OA\Get(
-     *     path="/address",
+     *     path="/api/v1/address",
      *     tags={"address"},
-     *     summary="Returns a list of adress(es) related to an user",
+     *     summary="Returns a list of address(es) related to an user",
      *     description="Returns a map of status codes to quantities",
      *     operationId="getAddresses",
      *     @OA\Parameter(
-     *         name="userHashID",
-     *         in="path",
-     *         description="ID of the users that owns the adress(es)",
-     *         required=true
+     *         name="user",
+     *         description="hashID of the user that owns the adress(es)",
+     *         required=true,
+     *         in="query",
+     *         example="vZC7fX"
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="operação realizado com sucesso",
-     *     )
+     *     ),
+     *     security={{"bearer_token":{}}}
      * )
      */
     public function getAddresses(Request $request) {
@@ -49,27 +51,26 @@ class AddressController extends Controller
      * Add a new address.
      *
      * @OA\Post(
-     *     path="/address/",
+     *     path="/api/v1/address/",
      *     tags={"address"},
      *     operationId="createAddress",
      *     @OA\RequestBody(
-     *          @OA\MediaType(
-     *             mediaType="multipart/form-data",
-     *             @OA\Schema(
-     *                type="object",
-     *                required={"rua", "cidade", "estado", "cep", "user_id"},
-     *                @OA\Property(property="rua", type="text"),
-     *                @OA\Property(property="cidade", type="text"),
-     *                @OA\Property(property="estado", type="password"),
-     *                @OA\Property(property="cep", type="text"),
-     *                @OA\Property(property="user_id", type="text"),
-     *             ),
-     *         ),
-     *      ),
+     *       required=true,
+     *       description="Pass user details",
+     *       @OA\JsonContent(
+     *          required={"rua", "cidade", "estado" , "cep" ,"user_id"},
+     *            @OA\Property(property="rua", type="string", format="text", example="Avenida parana"),
+     *            @OA\Property(property="cidade", type="string", format="text", example="Nova Lima"),
+     *            @OA\Property(property="estado", type="string", format="text", example="MG"),
+     *            @OA\Property(property="cep", type="string", format="text", example="34000752"),
+     *            @OA\Property(property="user_id", type="string", format="text", example="vZC7fX")
+     *       ),
+     *     ),
      *     @OA\Response(
      *         response=422,
      *         description="Erro ao criar novo endereço",
-     *     )
+     *     ),
+     *     security={{"bearer_token":{}}}
      * )
      */
     public function createAddress(Request $request) {

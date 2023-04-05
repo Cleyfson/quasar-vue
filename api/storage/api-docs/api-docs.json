@@ -16,30 +16,36 @@
         }
     },
     "paths": {
-        "/address": {
+        "/api/v1/address": {
             "get": {
                 "tags": [
                     "address"
                 ],
-                "summary": "Returns a list of adress(es) related to an user",
+                "summary": "Returns a list of address(es) related to an user",
                 "description": "Returns a map of status codes to quantities",
                 "operationId": "getAddresses",
                 "parameters": [
                     {
-                        "name": "userHashID",
-                        "in": "path",
-                        "description": "ID of the users that owns the adress(es)",
-                        "required": true
+                        "name": "user",
+                        "in": "query",
+                        "description": "hashID of the user that owns the adress(es)",
+                        "required": true,
+                        "example": "vZC7fX"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "operação realizado com sucesso"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
-        "/address/": {
+        "/api/v1/address/": {
             "post": {
                 "tags": [
                     "address"
@@ -47,8 +53,10 @@
                 "summary": "Add a new address.",
                 "operationId": "createAddress",
                 "requestBody": {
+                    "description": "Pass user details",
+                    "required": true,
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "required": [
                                     "rua",
@@ -59,19 +67,29 @@
                                 ],
                                 "properties": {
                                     "rua": {
-                                        "type": "text"
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Avenida parana"
                                     },
                                     "cidade": {
-                                        "type": "text"
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Nova Lima"
                                     },
                                     "estado": {
-                                        "type": "password"
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "MG"
                                     },
                                     "cep": {
-                                        "type": "text"
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "34000752"
                                     },
                                     "user_id": {
-                                        "type": "text"
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "vZC7fX"
                                     }
                                 },
                                 "type": "object"
@@ -83,7 +101,12 @@
                     "422": {
                         "description": "Erro ao criar novo endereço"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/v1/login": {
@@ -95,8 +118,10 @@
                 "description": "Returns a map of status codes to quantities",
                 "operationId": "login",
                 "requestBody": {
+                    "description": "Pass user details",
+                    "required": true,
                     "content": {
-                        "form-data": {
+                        "application/json": {
                             "schema": {
                                 "required": [
                                     "email",
@@ -104,10 +129,14 @@
                                 ],
                                 "properties": {
                                     "email": {
-                                        "type": "text"
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
                                     },
                                     "password": {
-                                        "type": "password"
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
                                     }
                                 },
                                 "type": "object"
@@ -125,7 +154,7 @@
                 }
             }
         },
-        "/logout": {
+        "/api/v1/logout": {
             "get": {
                 "tags": [
                     "auth"
@@ -136,7 +165,12 @@
                     "200": {
                         "description": "Successfully logged out"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/v1/users": {
@@ -147,6 +181,15 @@
                 "summary": "Returns a list of user(es)",
                 "description": "Returns a map of status codes to quantities",
                 "operationId": "index",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "number of page pagination",
+                        "required": true,
+                        "example": "2"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "operação realizado com sucesso"
@@ -172,7 +215,8 @@
                         "name": "id",
                         "in": "path",
                         "description": "hashID of the user",
-                        "required": true
+                        "required": true,
+                        "example": "vZC7fX"
                     }
                 ],
                 "responses": {
@@ -201,7 +245,8 @@
                         "name": "id",
                         "in": "path",
                         "description": "hashID of the user",
-                        "required": true
+                        "required": true,
+                        "example": "vZC7fX"
                     }
                 ],
                 "requestBody": {
@@ -263,7 +308,8 @@
                         "name": "id",
                         "in": "path",
                         "description": "user hash id",
-                        "required": true
+                        "required": true,
+                        "example": "vZC7fX"
                     }
                 ],
                 "responses": {
