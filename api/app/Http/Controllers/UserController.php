@@ -11,6 +11,8 @@ use Mockery\Undefined;
 use PhpParser\Node\Stmt\TryCatch;
 use Hashids\Hashids;
 use App\Http\Controllers\Reuso;
+use Illuminate\Support\Facades\Hash;
+
 
 
 class UserController extends Controller
@@ -48,14 +50,14 @@ class UserController extends Controller
      * get user.
      *
      * @OA\Get(
-     *     path="/users/{id}",
+     *     path="/api/v1/users/{id}",
      *     tags={"users"},
      *     summary="Returns a user",
      *     description="Returns a map of status codes to quantities",
      *     operationId="show",
      *     @OA\Parameter(
-     *         name="userHashID",
-     *         description="ID of the user",
+     *         name="id",
+     *         description="hashID of the user",
      *         required=true,
      *         in="path",
      *     ),
@@ -66,7 +68,8 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=422,
      *         description="Desculpe, Nao foi possivel encontrar usuario",
-     *     )
+     *     ),
+     *     security={{"bearer_token":{}}}
      * )
      */
     public function show($id_hash) {
@@ -85,23 +88,21 @@ class UserController extends Controller
      * create user.
      *
      * @OA\Post(
-     *     path="/users/",
+     *     path="/api/v1/users/",
      *     tags={"users"},
      *     summary="create a user",
      *     description="Returns a map of status codes to quantities",
      *     operationId="create",
      *     @OA\RequestBody(
-     *          @OA\MediaType(
-     *             mediaType="multipart/form-data",
-     *             @OA\Schema(
-     *                type="object",
-     *                required={"email", "full_name", "password"},
-     *                @OA\Property(property="email", type="text"),
-     *                @OA\Property(property="full_name", type="text"),
-     *                @OA\Property(property="password", type="password"),
-     *             ),
-     *         ),
-     *      ),
+     *       required=true,
+     *       description="Pass user details",
+     *       @OA\JsonContent(
+     *          required={"nome", "email" ,"password"},
+     *            @OA\Property(property="nome", type="string", format="name", example="Jon doe"),
+     *            @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *            @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+     *       ),
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="usuario criado com sucesso",
@@ -126,7 +127,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->first_name = $names[0];
         $user->last_name = (isset($names[1]))  ? $names[1] : fake()->lastName();
-        $user->password = $request->password;
+        $user->password = Hash::make($request->password);
         $user->avatar = fake()->imageUrl(360, 360);
 
         if(!$user->save()) {
@@ -144,23 +145,27 @@ class UserController extends Controller
      * update user.
      *
      * @OA\Put(
-     *     path="users/{id}",
+     *     path="/api/v1/users/{id}",
      *     tags={"users"},
      *     summary="upadate a user",
      *     description="Returns a map of status codes to quantities",
      *     operationId="update",
+     *     @OA\Parameter(
+     *         name="id",
+     *         description="hashID of the user",
+     *         required=true,
+     *         in="path",
+     *     ),
      *     @OA\RequestBody(
-     *          @OA\MediaType(
-     *             mediaType="multipart/form-data",
-     *             @OA\Schema(
-     *                type="object",
-     *                required={"email", "full_name", "password"},
-     *                @OA\Property(property="email", type="text"),
-     *                @OA\Property(property="full_name", type="text"),
-     *                @OA\Property(property="password", type="password"),
-     *             ),
-     *         ),
-     *      ),
+     *       required=true,
+     *       description="Pass user details",
+     *       @OA\JsonContent(
+     *          required={"nome", "email" ,"password"},
+     *            @OA\Property(property="nome", type="string", format="name", example="Jon doe"),
+     *            @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *            @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+     *       ),
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Usuario criado com sucesso",
@@ -168,7 +173,8 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=422,
      *         description="Erro ao criar novo usuario",
-     *     )
+     *     ),
+     *     security={{"bearer_token":{}}}
      * )
      */
     public function update(userFormRequest $request, $id_hash) {
@@ -185,7 +191,7 @@ class UserController extends Controller
         $user->first_name = $names[0];
         $user->last_name = (isset($names[1]))  ? $names[1] : fake()->lastName();
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = Hash::make($request->password);
         $user->update();
         return $user;
     }
@@ -195,13 +201,13 @@ class UserController extends Controller
      * delete user.
      *
      * @OA\Delete(
-     *     path="users/{id}",
+     *     path="/api/v1/users/{id}",
      *     tags={"users"},
      *     summary="delete a user",
      *     description="Returns a map of status codes to quantities",
      *     operationId="destroy",
      *     @OA\Parameter(
-     *         name="userHashId",
+     *         name="id",
      *         in="path",
      *         description="user hash id",
      *         required=true
@@ -213,7 +219,8 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=422,
      *         description="Desculpe, o usuario não pode ser excluido.",
-     *     )
+     *     ),
+     *     security={{"bearer_token":{}}}
      * )
      */
     public function destroy($id_hash) {

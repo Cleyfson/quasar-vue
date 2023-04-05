@@ -159,7 +159,7 @@
                 ]
             }
         },
-        "/users/{id}": {
+        "/api/v1/users/{id}": {
             "get": {
                 "tags": [
                     "users"
@@ -169,9 +169,9 @@
                 "operationId": "show",
                 "parameters": [
                     {
-                        "name": "userHashID",
+                        "name": "id",
                         "in": "path",
-                        "description": "ID of the user",
+                        "description": "hashID of the user",
                         "required": true
                     }
                 ],
@@ -182,10 +182,106 @@
                     "422": {
                         "description": "Desculpe, Nao foi possivel encontrar usuario"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "upadate a user",
+                "description": "Returns a map of status codes to quantities",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "hashID of the user",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user details",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "format": "name",
+                                        "example": "Jon doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario criado com sucesso"
+                    },
+                    "422": {
+                        "description": "Erro ao criar novo usuario"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "delete a user",
+                "description": "Returns a map of status codes to quantities",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "user hash id",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "usuario deletado com sucesso"
+                    },
+                    "422": {
+                        "description": "Desculpe, o usuario não pode ser excluido."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
-        "/users/": {
+        "/api/v1/users/": {
             "post": {
                 "tags": [
                     "users"
@@ -194,23 +290,31 @@
                 "description": "Returns a map of status codes to quantities",
                 "operationId": "create",
                 "requestBody": {
+                    "description": "Pass user details",
+                    "required": true,
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "required": [
+                                    "nome",
                                     "email",
-                                    "full_name",
                                     "password"
                                 ],
                                 "properties": {
-                                    "email": {
-                                        "type": "text"
+                                    "nome": {
+                                        "type": "string",
+                                        "format": "name",
+                                        "example": "Jon doe"
                                     },
-                                    "full_name": {
-                                        "type": "text"
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
                                     },
                                     "password": {
-                                        "type": "password"
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
                                     }
                                 },
                                 "type": "object"
@@ -231,73 +335,6 @@
                         "bearer_token": []
                     }
                 ]
-            }
-        },
-        "users/{id}": {
-            "put": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "upadate a user",
-                "description": "Returns a map of status codes to quantities",
-                "operationId": "update",
-                "requestBody": {
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "full_name",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "text"
-                                    },
-                                    "full_name": {
-                                        "type": "text"
-                                    },
-                                    "password": {
-                                        "type": "password"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Usuario criado com sucesso"
-                    },
-                    "422": {
-                        "description": "Erro ao criar novo usuario"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "delete a user",
-                "description": "Returns a map of status codes to quantities",
-                "operationId": "destroy",
-                "parameters": [
-                    {
-                        "name": "userHashId",
-                        "in": "path",
-                        "description": "user hash id",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "usuario deletado com sucesso"
-                    },
-                    "422": {
-                        "description": "Desculpe, o usuario não pode ser excluido."
-                    }
-                }
             }
         }
     },
